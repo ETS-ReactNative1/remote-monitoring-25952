@@ -99,7 +99,7 @@ const Login = ({...props}) => {
                <Header/>
               
                <KeyboardAvoidingView
-                behavior='padding' keyboardVerticalOffset={ Platform.OS === 'ios' ? 40 : -230}
+                behavior='padding' keyboardVerticalOffset={ Platform.OS === 'ios' ? 40 : -280}
                >
                    <ScrollView>
                        <View style={_.blackBg}>

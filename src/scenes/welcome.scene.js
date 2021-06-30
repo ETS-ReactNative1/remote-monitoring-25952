@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, TouchableOpacity, Image} from 'react-native';
+import {View, TouchableOpacity, Image, ScrollView} from 'react-native';
 import {Text, Header} from './../components/index';
 import { styles as _ } from '../styles';
 
@@ -7,6 +7,7 @@ const Welcome = ({...props}) => {
     return(
         <View style={[_.container,_.blackBg]}>
            <Header/>
+           <ScrollView>
            <View style={[_.elements,_.alignICenter,_.mt40,_.flexFull]}>
                 <Image
                     source={require('../assets/icons/handshake.png')}
@@ -29,6 +30,7 @@ const Welcome = ({...props}) => {
                     <Text style={[_.textWhite,_.textCenter,_.fs18]}>Get Started</Text>
                 </TouchableOpacity>
            </View>
+                </ScrollView>
         </View>       
     );
 }

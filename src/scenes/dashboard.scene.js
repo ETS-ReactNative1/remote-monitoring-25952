@@ -1,5 +1,5 @@
 import React,{useEffect, useState} from 'react';
-import {View, TouchableOpacity, Image, AsyncStorage} from 'react-native';
+import {View, TouchableOpacity, Image, AsyncStorage, ScrollView} from 'react-native';
 import { Icon } from 'react-native-elements';
 import DialogInput from 'react-native-dialog-input';
 import {Text, Header, BottomNav, InputDialog} from './../components/index';
@@ -8,6 +8,7 @@ import BluetoothSerial from '@voxylu/react-native-bluetooth-serial'
 import { Buffer } from 'buffer'
 global.Buffer = Buffer
 import { colors, width } from '../utils/constant';
+
 
 const Dashboard = ({...props}) => {
     const [dialog, setDialog] = useState(false);
@@ -50,7 +51,6 @@ const Dashboard = ({...props}) => {
     return(
         <View style={[_.container,_.blackBg,_.relative]}>
         <Header
-        logout
         navigation={props.navigation}
         />
         {/* {upVisible &&
@@ -58,6 +58,8 @@ const Dashboard = ({...props}) => {
             <Text style={[_.textWhite,_.fs20]}>Your blood pressure is {handlePressureText()}</Text>
         </View>
         } */}
+        <ScrollView>
+            <View style={{paddingBottom:80}}>
         <Text style={[_.textCenter,_.textWhite,_.fs16,_.mt20]}>MY HEALTH MONITORING</Text>
         <Text style={[_.textCenter,_.textWhite,_.para,_.mt30,_.fs18]}>Health Biometrics</Text>
         <View style={[_.elements,_.mt5,{paddingBottom:0}]}>
@@ -145,6 +147,8 @@ const Dashboard = ({...props}) => {
         color={colors[0]}
         />
         </View>
+        </View>
+        </ScrollView>
         {/* <DialogInput 
             isDialogVisible={dialog}
             title={"Blood Presure"}

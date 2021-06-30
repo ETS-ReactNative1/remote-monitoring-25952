@@ -7,7 +7,7 @@ import { Icon } from 'react-native-elements';
 
 const Starter = ({...props}) => {
     return(
-        <View style={[_.container,_.blackBg,_.relative]}>
+        <View style={[_.container,_.blackBg,_.relative,{paddingBottom:0}]}>
            <Header
            backBtn={true}
            sideBtn={true}

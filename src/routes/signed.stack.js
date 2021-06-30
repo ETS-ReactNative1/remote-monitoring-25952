@@ -5,6 +5,7 @@ import { navigationOptions } from '../utils/constant';
 import Dashboard from '../scenes/dashboard.scene';
 import Starter from '../scenes/starter.scene';
 import Guide from '../scenes/guide.scene';
+import Testing from '../scenes/testing.scene';
 // Scenes
 
 const SignedStack = createStackNavigator({
@@ -18,6 +19,10 @@ const SignedStack = createStackNavigator({
     },
     Guide:{
         screen:Guide,
+        navigationOptions: () => navigationOptions
+    },
+    Testing:{
+        screen:Testing,
         navigationOptions: () => navigationOptions
     },
 },{

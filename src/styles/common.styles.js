@@ -7,7 +7,8 @@ const _common = StyleSheet.create({
         flex:1,
     },
     blackBg:{
-        backgroundColor:colors[1]
+        backgroundColor:colors[1],
+        paddingBottom:40
     },
     flexFull:{
         flex:1,

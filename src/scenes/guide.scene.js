@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import {View, TouchableOpacity, Image} from 'react-native';
+import {View, TouchableOpacity, Image, ScrollView} from 'react-native';
 import {Text, Header} from './../components/index';
 import { styles as _ } from '../styles';
 import { width,colors, guide_,height } from '../utils/constant';
@@ -18,9 +18,10 @@ const Guide = ({...props}) => {
         setSize( { width: layout.width, height: layout.height } )
       }
     return(
-        <View style={[_.container,_.blackBg,_.relative]}>
+        <View style={[_.container,_.relative,_.blackBg]}>
            <Header
             />
+            <ScrollView>
            <View style={[_.elements,_.alignICenter,_.mt40,_.flexFull]}>
               
                <TouchableOpacity 
@@ -61,7 +62,7 @@ const Guide = ({...props}) => {
         </Carousel>
                </View>
 
-          
+          </ScrollView>
 
          </View>       
     );

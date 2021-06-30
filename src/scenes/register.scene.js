@@ -77,7 +77,7 @@ const Register = ({...props}) => {
            navigation={props.navigation}
            />
            <KeyboardAvoidingView
-            behavior='padding' keyboardVerticalOffset={ Platform.OS === 'ios' ? 40 : -250}
+            behavior='padding' keyboardVerticalOffset={ Platform.OS === 'ios' ? 40 : -280}
            >
                <ScrollView>
                    <View style={_.blackBg}>
@@ -135,7 +135,8 @@ const Register = ({...props}) => {
                </View>
           {!keyboardStatus &&
             <TouchableOpacity 
-             onPress={() => handleSubmit()}
+              onPress={() => handleSubmit()}
+            //    onPress={() => props.navigation.navigate('Dashboard',{data:{a:'red'}})}
             style={[_._lbtn,_.mt20,{width:width-40}]}>
                    <Text style={[_.textWhite,_.textCenter,_.fs18]}>Submit</Text>
                </TouchableOpacity>
