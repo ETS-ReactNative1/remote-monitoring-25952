@@ -4,14 +4,16 @@ from rest_framework.permissions import IsAdminUser
 from rest_framework.viewsets import ModelViewSet, ViewSet
 from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
-
+from home.backends import get_user_id
 from home.api.v1.serializers import (
     SignupSerializer,
     CustomTextSerializer,
     HomePageSerializer,
     UserSerializer,
+    WeightSerializer,
+    BloodPressureSerializer
 )
-from home.models import CustomText, HomePage
+from home.models import CustomText, HomePage, Weight, BloodPressure
 
 
 class SignupViewSet(ModelViewSet):
@@ -49,3 +51,40 @@ class HomePageViewSet(ModelViewSet):
     authentication_classes = (SessionAuthentication, TokenAuthentication)
     permission_classes = [IsAdminUser]
     http_method_names = ["get", "put", "patch"]
+
+class WeightViewSet(ViewSet):
+    queryset = Weight.objects.all()
+    serializer_class = WeightSerializer
+    
+    def list(self, request):
+        user_id = get_user_id(request)
+        queryset = Weight.objects.filter(user_id=user_id)
+        serializer = WeightSerializer(queryset, many=True)
+        return Response(serializer.data)
+    
+    def create(self, request):
+        user_id = get_user_id(request)
+        
+        if user_id:
+            entry = Weight(user_id=user_id, weight=request.data['weight'])
+            entry.save()
+        return Response({'status': user_id})
+
+
+class BloodPressureViewSet(ViewSet):
+    queryset = BloodPressure.objects.all()
+    serializer_class = BloodPressureSerializer
+    
+    def list(self, request):
+        user_id = get_user_id(request)
+        queryset = BloodPressure.objects.filter(user_id=user_id)
+        serializer = BloodPressureSerializer(queryset, many=True)
+        return Response(serializer.data)
+    
+    def create(self, request):
+        user_id = get_user_id(request)
+        
+        if user_id:
+            entry = BloodPressure(user_id=user_id, systolic=request.data['systolic'], diastolic=request.data['diastolic'])
+            entry.save()
+        return Response({'status': user_id})

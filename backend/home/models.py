@@ -41,3 +41,15 @@ class HomePage(models.Model):
     @property
     def field(self):
         return 'body'
+
+class Weight(models.Model):
+    user_id = models.IntegerField()
+    weight = models.CharField(max_length=3)
+    timestamp = models.DateTimeField(auto_now_add= True)
+
+
+class BloodPressure(models.Model):
+    user_id = models.IntegerField()
+    systolic = models.CharField(max_length=3)
+    diastolic = models.CharField(max_length=3)
+    timestamp = models.DateTimeField(auto_now_add= True)
