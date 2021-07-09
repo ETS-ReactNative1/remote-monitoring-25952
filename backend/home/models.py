@@ -53,3 +53,19 @@ class BloodPressure(models.Model):
     systolic = models.CharField(max_length=3)
     diastolic = models.CharField(max_length=3)
     timestamp = models.DateTimeField(auto_now_add= True)
+
+class BloodSugar(models.Model):
+    user_id = models.IntegerField()
+    blood_sugar = models.CharField(max_length=3)
+    timestamp = models.DateTimeField(auto_now_add= True)
+
+class VegetablesAndFruits(models.Model):
+    user_id = models.IntegerField()
+    vegetables = models.CharField(max_length=3)
+    fruits = models.CharField(max_length=3)
+    timestamp = models.DateTimeField(auto_now_add= True)
+
+class Water(models.Model):
+    user_id = models.IntegerField()
+    water = models.CharField(max_length=3)
+    timestamp = models.DateTimeField(auto_now_add= True)

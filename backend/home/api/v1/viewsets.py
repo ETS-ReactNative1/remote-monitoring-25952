@@ -11,9 +11,12 @@ from home.api.v1.serializers import (
     HomePageSerializer,
     UserSerializer,
     WeightSerializer,
-    BloodPressureSerializer
+    BloodPressureSerializer,
+    BloodSugarSerializer,
+    VegetablesAndFruitsSerializer,
+    WaterSerializer
 )
-from home.models import CustomText, HomePage, Weight, BloodPressure
+from home.models import CustomText, HomePage, Weight, BloodPressure, BloodSugar, VegetablesAndFruits, Water
 
 
 class SignupViewSet(ModelViewSet):
@@ -86,5 +89,59 @@ class BloodPressureViewSet(ViewSet):
         
         if user_id:
             entry = BloodPressure(user_id=user_id, systolic=request.data['systolic'], diastolic=request.data['diastolic'])
+            entry.save()
+        return Response({'status': user_id})
+
+class BloodSugarViewSet(ViewSet):
+    queryset = BloodSugar.objects.all()
+    serializer_class = BloodSugarSerializer
+    
+    def list(self, request):
+        user_id = get_user_id(request)
+        queryset = BloodSugar.objects.filter(user_id=user_id)
+        serializer = BloodSugarSerializer(queryset, many=True)
+        return Response(serializer.data)
+    
+    def create(self, request):
+        user_id = get_user_id(request)
+        
+        if user_id:
+            entry = BloodSugar(user_id=user_id, blood_sugar=request.data['blood_sugar'])
+            entry.save()
+        return Response({'status': user_id})
+
+class VegetablesAndFruitsViewSet(ViewSet):
+    queryset = VegetablesAndFruits.objects.all()
+    serializer_class = VegetablesAndFruitsSerializer
+    
+    def list(self, request):
+        user_id = get_user_id(request)
+        queryset = VegetablesAndFruits.objects.filter(user_id=user_id)
+        serializer = VegetablesAndFruitsSerializer(queryset, many=True)
+        return Response(serializer.data)
+    
+    def create(self, request):
+        user_id = get_user_id(request)
+        
+        if user_id:
+            entry = VegetablesAndFruits(user_id=user_id, vegetables=request.data['vegetables'], fruits=request.data['fruits'])
+            entry.save()
+        return Response({'status': user_id})
+
+class WaterViewSet(ViewSet):
+    queryset = Water.objects.all()
+    serializer_class = WaterSerializer
+    
+    def list(self, request):
+        user_id = get_user_id(request)
+        queryset = Water.objects.filter(user_id=user_id)
+        serializer = WaterSerializer(queryset, many=True)
+        return Response(serializer.data)
+    
+    def create(self, request):
+        user_id = get_user_id(request)
+        
+        if user_id:
+            entry = Water(user_id=user_id, water=request.data['water'])
             entry.save()
         return Response({'status': user_id})
