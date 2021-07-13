@@ -69,3 +69,8 @@ class Water(models.Model):
     user_id = models.IntegerField()
     water = models.CharField(max_length=3)
     timestamp = models.DateTimeField(auto_now_add= True)
+
+class Steps(models.Model):
+    user_id = models.IntegerField()
+    steps = models.IntegerField()
+    timestamp = models.DateTimeField(auto_now_add= True)

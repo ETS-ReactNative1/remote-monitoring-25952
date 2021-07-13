@@ -10,7 +10,9 @@ from home.api.v1.viewsets import (
     BloodPressureViewSet,
     BloodSugarViewSet,
     VegetablesAndFruitsViewSet,
-    WaterViewSet
+    WaterViewSet,
+    StepsViewSet,
+    BMIViewSet
 )
 
 router = DefaultRouter()
@@ -23,6 +25,8 @@ router.register("blood-pressure", BloodPressureViewSet)
 router.register("blood-sugar", BloodSugarViewSet)
 router.register("vegetables-fruits", VegetablesAndFruitsViewSet)
 router.register("water", WaterViewSet)
+router.register("steps", StepsViewSet)
+router.register("bmi", BMIViewSet)
 
 urlpatterns = [
     path("", include(router.urls)),

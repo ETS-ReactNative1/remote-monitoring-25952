@@ -14,9 +14,10 @@ from home.api.v1.serializers import (
     BloodPressureSerializer,
     BloodSugarSerializer,
     VegetablesAndFruitsSerializer,
-    WaterSerializer
+    WaterSerializer,
+    StepsSerializer
 )
-from home.models import CustomText, HomePage, Weight, BloodPressure, BloodSugar, VegetablesAndFruits, Water
+from home.models import CustomText, HomePage, Weight, BloodPressure, BloodSugar, VegetablesAndFruits, Water, Steps
 
 
 class SignupViewSet(ModelViewSet):
@@ -145,3 +146,33 @@ class WaterViewSet(ViewSet):
             entry = Water(user_id=user_id, water=request.data['water'])
             entry.save()
         return Response({'status': user_id})
+
+
+class StepsViewSet(ViewSet):
+    queryset = Steps.objects.all()
+    serializer_class = StepsSerializer
+    
+    def list(self, request):
+        user_id = get_user_id(request)
+        queryset = Steps.objects.filter(user_id=user_id)
+        serializer = StepsSerializer(queryset, many=True)
+        return Response(serializer.data)
+    
+    def create(self, request):
+        user_id = get_user_id(request)
+        
+        if user_id:
+            entry = Steps(user_id=user_id, steps=request.data['steps'])
+            entry.save()
+        return Response({'status': user_id})
+
+class BMIViewSet(ViewSet):
+    queryset = Weight.objects.all()
+    serializer_class = WeightSerializer
+    
+    def create(self, request):
+        user_id = get_user_id(request)
+        latest_weight = Weight.objects.filter(user_id=user_id)
+        latest_weight = latest_weight[-1]
+
+        return Response({'BMI': latest_weight/request.data['height']**2})
