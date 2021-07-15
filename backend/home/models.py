@@ -74,3 +74,8 @@ class Steps(models.Model):
     user_id = models.IntegerField()
     steps = models.IntegerField()
     timestamp = models.DateTimeField(auto_now_add= True)
+
+class Height(models.Model):
+    user_id = models.IntegerField()
+    height = models.IntegerField()
+    timestamp = models.DateTimeField(auto_now_add= True)

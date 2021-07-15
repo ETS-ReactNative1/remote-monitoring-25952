@@ -15,9 +15,10 @@ from home.api.v1.serializers import (
     BloodSugarSerializer,
     VegetablesAndFruitsSerializer,
     WaterSerializer,
-    StepsSerializer
+    StepsSerializer,
+    HeightSerializer
 )
-from home.models import CustomText, HomePage, Weight, BloodPressure, BloodSugar, VegetablesAndFruits, Water, Steps
+from home.models import CustomText, HomePage, Weight, BloodPressure, BloodSugar, VegetablesAndFruits, Water, Steps, Height
 
 
 class SignupViewSet(ModelViewSet):
@@ -176,3 +177,21 @@ class BMIViewSet(ViewSet):
         latest_weight = latest_weight[-1]
 
         return Response({'BMI': latest_weight/request.data['height']**2})
+
+class HeightViewSet(ViewSet):
+    queryset = Height.objects.all()
+    serializer_class = HeightSerializer
+    
+    def list(self, request):
+        user_id = get_user_id(request)
+        queryset = Height.objects.filter(user_id=user_id)
+        serializer =HeightSerializer(queryset, many=True)
+        return Response(serializer.data)
+    
+    def create(self, request):
+        user_id = get_user_id(request)
+        
+        if user_id:
+            entry = Height(user_id=user_id, height=request.data['height'])
+            entry.save()
+        return Response({'status': user_id})
