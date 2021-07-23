@@ -195,3 +195,18 @@ class HeightViewSet(ViewSet):
             entry = Height(user_id=user_id, height=request.data['height'])
             entry.save()
         return Response({'status': user_id})
+
+
+class UserStatusViewSet(ViewSet):
+    queryset = Height.objects.all()
+    serializer_class = HeightSerializer
+    
+    def list(self, request):
+        user_id = get_user_id(request)
+
+        return Response({'status': user_id})
+    
+    def create(self, request):
+        user_id = get_user_id(request)
+
+        return Response({'status': user_id})
