@@ -1,0 +1,64 @@
+{% extends "admin/base_site.html" %}
+<link rel="stylesheet" type="text/css" href="/static/admin/css/changelists.css">
+<script type="text/javascript" src="/admin/jsi18n/"></script>
+<script type="text/javascript" src="/static/admin/js/vendor/jquery/jquery.js"></script>
+<script type="text/javascript" src="/static/admin/js/jquery.init.js"></script>
+<script type="text/javascript" src="/static/admin/js/core.js"></script>
+<script type="text/javascript" src="/static/admin/js/admin/RelatedObjectLookups.js"></script>
+<script type="text/javascript" src="/static/admin/js/actions.js"></script>
+<script type="text/javascript" src="/static/admin/js/urlify.js"></script>
+<script type="text/javascript" src="/static/admin/js/prepopulate.js"></script>
+<script type="text/javascript" src="/static/admin/js/vendor/xregexp/xregexp.js"></script>
+{% block content %}
+<div id="content" class="flex">
+    <h1>Reports</h1>
+    <div id="content-main">
+       <ul class="object-tools">
+           <!-- empty -->
+       </ul>
+       <div class="module" id="changelist">
+          <form id="changelist-form" method="post" novalidate="">
+             <input type="hidden" name="csrfmiddlewaretoken" value="et6uF2WLTPO1ptXcYNa4P14H6dD0J3r1yNu7xiJCRu00ANpdxlEE9MccVe77qjce">
+             <div class="actions">
+                <label>
+                   Action: 
+                   <select name="action" required="">
+                      <option value="" selected="">---------</option>
+                      <option value="delete_selected">Download report</option>
+                   </select>
+                </label>
+                <input type="hidden" name="select_across" value="0" class="select-across">
+                <button type="submit" class="button" title="Run the selected action" name="index" value="0">Go</button>
+                <span class="action-counter" data-actions-icnt="1" style="display: inline;">0 of 1 selected</span>
+             </div>
+             <div class="results">
+                <table id="result_list">
+                   <thead>
+                      <tr>
+                         <th scope="col" class="action-checkbox-column">
+                            <div class="text"><span><input type="checkbox" id="action-toggle"></span></div>
+                            <div class="clear"></div>
+                         </th>
+                         <th scope="col" class="column-__str__">
+                            <div class="text"><span>Admin Panel</span></div>
+                            <div class="clear"></div>
+                         </th>
+                      </tr>
+                   </thead>
+                   <tbody>
+                      <tr class="row1">
+                         <td class="action-checkbox"><input type="checkbox" name="_selected_action" value="1" class="action-select"></td>
+                         <th class="field-__str__"><a href="/admin/admin_panel/adminpanel/1/change/">AdminPanel object (1)</a></th>
+                      </tr>
+                   </tbody>
+                </table>
+             </div>
+             <p class="paginator">
+                1 Admin Panel
+             </p>
+          </form>
+       </div>
+    </div>
+    <br class="clear">
+ </div>
+{% endblock %}

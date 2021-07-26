@@ -10,19 +10,20 @@ class MyAdminSite(AdminSite):
     def get_urls(self):
         urls = super().get_urls()
         my_urls = [
-            path('user_infos/', self.admin_view(self.stats), name='stats'),
+            path('user_infos/', self.admin_view(self.reports), name='reports'),
+            path('reports/', self.admin_view(self.reports), name='reports'),
         ]
         print(my_urls + urls)
         return my_urls + urls
 
-    def stats(self, request):
+    def reports(self, request):
         request.current_app = self.name
 
         context = dict(
            # Include common variables for rendering the admin template.
            self.each_context(request),
         )
-        return TemplateResponse(request, "view_1.html", context)
+        return TemplateResponse(request, "reports.html", context)
 
     def _build_app_dict(self, request, label=None):
         app_dict = {'admin_panel': {'name': 'Admin_Panel', 'app_label': 'admin_panel', 'app_url': '/admin/admin_panel/', 'has_module_perms': True, 'models': [{'name': 'Admin Panels', 'object_name': 'AdminPanel', 'perms': {'add': True, 'change': True, 'delete': True, 'view': True}, 'admin_url': '/admin/admin_panel/adminpanel/', 'add_url': '/admin/admin_panel/adminpanel/add/', 'view_only': False}]}}
@@ -63,7 +64,7 @@ class MyAdminSite(AdminSite):
                     },
                     {
                         'name': 'Reports',
-                        'admin_url': '/admin/user_infos/',
+                        'admin_url': '/admin/reports/',
                         'object_name': 'User_Infos',
                         'perms': {'delete': False, 'add': False, 'change': False},
                         'add_url': ''
@@ -78,7 +79,7 @@ class MyAdminSite(AdminSite):
                 ]
             }
         }
-        #app_dict = super(MyAdminSite, self)._build_app_dict(request, label)
+        app_dict = super(MyAdminSite, self)._build_app_dict(request, label)
         return app_dict
 
 admin_site = MyAdminSite(name='myadmin')

@@ -17,7 +17,7 @@ import logging
 env = environ.Env()
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = env.bool("DEBUG", default=False)
+DEBUG = env.bool("DEBUG", default=True)
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -52,6 +52,7 @@ LOCAL_APPS = [
     'home',
     'modules',
     'users.apps.UsersConfig',
+    'admin_panel'
 ]
 THIRD_PARTY_APPS = [
     'rest_framework',
@@ -61,8 +62,8 @@ THIRD_PARTY_APPS = [
     'bootstrap4',
     'allauth',
     'allauth.account',
-    'allauth.socialaccount',
-    'allauth.socialaccount.providers.google',
+    #'allauth.socialaccount',
+    #'allauth.socialaccount.providers.google',
     'django_extensions',
     'drf_yasg',
     'storages',
