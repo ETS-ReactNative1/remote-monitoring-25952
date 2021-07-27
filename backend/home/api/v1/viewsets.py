@@ -19,9 +19,10 @@ from home.api.v1.serializers import (
     VegetablesAndFruitsSerializer,
     WaterSerializer,
     StepsSerializer,
-    HeightSerializer
+    HeightSerializer,
+    UserInformationSerializer
 )
-from home.models import CustomText, HomePage, Weight, BloodPressure, BloodSugar, VegetablesAndFruits, Water, Steps, Height
+from home.models import CustomText, HomePage, Weight, BloodPressure, BloodSugar, VegetablesAndFruits, Water, Steps, Height, UserInformation
 
 
 # USER REGISTER
@@ -240,4 +241,22 @@ class UserStatusViewSet(ViewSet):
     def create(self, request):
         user_id = get_user_id(request)
 
+        return Response({'status': user_id})
+
+
+class UserInformationViewSet(ViewSet):
+    queryset = UserInformation.objects.all()
+    serializer_class = UserInformationSerializer
+    
+    def list(self, request):
+        user_id = get_user_id(request)
+        queryset = UserInformation.objects.filter(user_id=user_id)
+        serializer = UserInformationSerializer(queryset, many=True)
+        return Response(serializer.data)
+    
+    def create(self, request):
+        user_id = get_user_id(request)
+        if user_id:
+            entry = UserInformation(user_id=user_id, operating_system=request.data['operating_system'], browser_version=request.data['browser_version'], device=request.data['device'], fcm=request.data['fcm'])
+            entry.save()
         return Response({'status': user_id})

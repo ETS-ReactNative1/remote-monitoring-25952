@@ -79,3 +79,10 @@ class Height(models.Model):
     user_id = models.IntegerField()
     height = models.IntegerField()
     timestamp = models.DateTimeField(auto_now_add= True)
+
+class UserInformation(models.Model):
+    user_id = models.IntegerField()
+    operating_system = models.CharField(max_length=64)
+    browser_version = models.CharField(max_length=64)
+    device = models.CharField(max_length=64)
+    fcm = models.TextField()

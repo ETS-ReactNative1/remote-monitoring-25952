@@ -9,7 +9,7 @@ from allauth.account.utils import setup_user_email
 from rest_framework import serializers
 from rest_auth.serializers import PasswordResetSerializer
 
-from home.models import CustomText, HomePage, Weight, BloodPressure, BloodSugar, VegetablesAndFruits, Water, Steps, Height
+from home.models import CustomText, HomePage, Weight, BloodPressure, BloodSugar, VegetablesAndFruits, Water, Steps, Height, UserInformation
 
 User = get_user_model()
 
@@ -162,4 +162,9 @@ class StepsSerializer(serializers.ModelSerializer):
 class HeightSerializer(serializers.ModelSerializer):
     class Meta:
         model = Height
+        fields = '__all__'
+
+class UserInformationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserInformation
         fields = '__all__'
