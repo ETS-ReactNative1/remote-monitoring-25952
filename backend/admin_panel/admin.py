@@ -130,7 +130,7 @@ class MyAdminSite(AdminSite):
                 ]
             }
         }
-        app_dict = super(MyAdminSite, self)._build_app_dict(request, label)
+        #app_dict = super(MyAdminSite, self)._build_app_dict(request, label)
         return app_dict
 
 admin_site = MyAdminSite(name='myadmin')
