@@ -260,3 +260,21 @@ class UserInformationViewSet(ViewSet):
             entry = UserInformation(user_id=user_id, operating_system=request.data['operating_system'], browser_version=request.data['browser_version'], device=request.data['device'], fcm=request.data['fcm'])
             entry.save()
         return Response({'status': user_id})
+
+
+class UserInformationViewSet(ViewSet):
+    queryset = UserInformation.objects.all()
+    serializer_class = UserInformationSerializer
+    
+    def list(self, request):
+        user_id = get_user_id(request)
+        queryset = UserInformation.objects.filter(user_id=user_id)
+        serializer = UserInformationSerializer(queryset, many=True)
+        return Response(serializer.data)
+    
+    def create(self, request):
+        user_id = get_user_id(request)
+        if user_id:
+            entry = UserInformation(user_id=user_id, operating_system=request.data['operating_system'], browser_version=request.data['browser_version'], device=request.data['device'], fcm=request.data['fcm'])
+            entry.save()
+        return Response({'status': user_id})

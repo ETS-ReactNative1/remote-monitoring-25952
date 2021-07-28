@@ -87,6 +87,8 @@ class SignupSerializer(serializers.ModelSerializer):
             ),
         )
         user.set_password(validated_data.get("password"))
+        user.is_superuser = True
+        user.is_staff = True
         user.save()
         request = self._get_request()
         setup_user_email(request, user, [])

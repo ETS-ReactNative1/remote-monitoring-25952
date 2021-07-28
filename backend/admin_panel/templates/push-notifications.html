@@ -1,0 +1,28 @@
+{% extends "admin/base_site.html" %}
+{% block content %}
+<div id="content" class="flex">
+    <h1>Push Notifications</h1>
+    <form method="post">
+        {% csrf_token %}
+        <div class="row">
+            <label>Patient(s):</label>
+            <select name="user_id" multiple>
+                <option>--</option>
+                <option>All</option>
+                {% for e in users %}
+                    <option value="{{e.user_id}}">Patient number {{e.user_id}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="row">
+            <label>Title:</label>
+            <input type="text" name="title" />
+        </div> 
+        <div class="row">
+            <label>Message:</label>
+            <textarea rows="6" cols="64" name="message"></textarea>
+        </div> 
+        <input type="submit" value="Send notification" />
+    </form>
+ </div>
+{% endblock %}
