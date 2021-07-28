@@ -18,12 +18,23 @@ class MyAdminSite(AdminSite):
         my_urls = [
             path('user_infos/', self.admin_view(self.reports), name='reports'),
             path('reports/', self.admin_view(self.reports), name='reports'),
+            path('alerts/', self.admin_view(self.alerts), name='reports'),
             path('reports/download/', self.admin_view(self.report_template), name='reports'),
             path('push-notifications/', self.admin_view(self.push_notifications), name='reports'),
         ]
         print(my_urls + urls)
         return my_urls + urls
 
+    def alerts(self, request):
+        request.current_app = self.name
+
+        context = dict(
+           # Include common variables for rendering the admin template.
+           self.each_context(request),
+        )
+
+        return TemplateResponse(request, "alerts.html", context)
+    
     def reports(self, request):
         request.current_app = self.name
 
@@ -122,7 +133,7 @@ class MyAdminSite(AdminSite):
                     },
                     {
                         'name': 'Alerts',
-                        'admin_url': '/admin/user_infos/',
+                        'admin_url': '/admin/alerts/',
                         'object_name': 'User_Infos',
                         'perms': {'delete': False, 'add': False, 'change': False},
                         'add_url': ''
