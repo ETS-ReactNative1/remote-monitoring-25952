@@ -94,13 +94,13 @@ class WeightViewSet(ViewSet):
     serializer_class = WeightSerializer
     
     def list(self, request):
-        user_id = get_user_id(request)
+        user_id, user_data = get_user_id(request)
         queryset = Weight.objects.filter(user_id=user_id)
         serializer = WeightSerializer(queryset, many=True)
         return Response(serializer.data)
     
     def create(self, request):
-        user_id = get_user_id(request)
+        user_id, user_data = get_user_id(request)
         
         if user_id:
             entry = Weight(user_id=user_id, weight=request.data['weight'])
@@ -113,13 +113,13 @@ class BloodPressureViewSet(ViewSet):
     serializer_class = BloodPressureSerializer
     
     def list(self, request):
-        user_id = get_user_id(request)
+        user_id, user_data = get_user_id(request)
         queryset = BloodPressure.objects.filter(user_id=user_id)
         serializer = BloodPressureSerializer(queryset, many=True)
         return Response(serializer.data)
     
     def create(self, request):
-        user_id = get_user_id(request)
+        user_id, user_data = get_user_id(request)
         
         if user_id:
             entry = BloodPressure(user_id=user_id, systolic=request.data['systolic'], diastolic=request.data['diastolic'])
@@ -131,13 +131,13 @@ class BloodSugarViewSet(ViewSet):
     serializer_class = BloodSugarSerializer
     
     def list(self, request):
-        user_id = get_user_id(request)
+        user_id, user_data = get_user_id(request)
         queryset = BloodSugar.objects.filter(user_id=user_id)
         serializer = BloodSugarSerializer(queryset, many=True)
         return Response(serializer.data)
     
     def create(self, request):
-        user_id = get_user_id(request)
+        user_id, user_data = get_user_id(request)
         
         if user_id:
             entry = BloodSugar(user_id=user_id, blood_sugar=request.data['blood_sugar'])
@@ -149,13 +149,13 @@ class VegetablesAndFruitsViewSet(ViewSet):
     serializer_class = VegetablesAndFruitsSerializer
     
     def list(self, request):
-        user_id = get_user_id(request)
+        user_id, user_data = get_user_id(request)
         queryset = VegetablesAndFruits.objects.filter(user_id=user_id)
         serializer = VegetablesAndFruitsSerializer(queryset, many=True)
         return Response(serializer.data)
     
     def create(self, request):
-        user_id = get_user_id(request)
+        user_id, user_data = get_user_id(request)
         
         if user_id:
             entry = VegetablesAndFruits(user_id=user_id, vegetables=request.data['vegetables'], fruits=request.data['fruits'])
@@ -167,13 +167,13 @@ class WaterViewSet(ViewSet):
     serializer_class = WaterSerializer
     
     def list(self, request):
-        user_id = get_user_id(request)
+        user_id, user_data = get_user_id(request)
         queryset = Water.objects.filter(user_id=user_id)
         serializer = WaterSerializer(queryset, many=True)
         return Response(serializer.data)
     
     def create(self, request):
-        user_id = get_user_id(request)
+        user_id, user_data = get_user_id(request)
         
         if user_id:
             entry = Water(user_id=user_id, water=request.data['water'])
@@ -186,13 +186,13 @@ class StepsViewSet(ViewSet):
     serializer_class = StepsSerializer
     
     def list(self, request):
-        user_id = get_user_id(request)
+        user_id, user_data = get_user_id(request)
         queryset = Steps.objects.filter(user_id=user_id)
         serializer = StepsSerializer(queryset, many=True)
         return Response(serializer.data)
     
     def create(self, request):
-        user_id = get_user_id(request)
+        user_id, user_data = get_user_id(request)
         
         if user_id:
             entry = Steps(user_id=user_id, steps=request.data['steps'])
@@ -204,7 +204,7 @@ class BMIViewSet(ViewSet):
     serializer_class = WeightSerializer
     
     def create(self, request):
-        user_id = get_user_id(request)
+        user_id, user_data = get_user_id(request)
         latest_weight = Weight.objects.filter(user_id=user_id)
         latest_weight = latest_weight[-1]
 
@@ -215,13 +215,13 @@ class HeightViewSet(ViewSet):
     serializer_class = HeightSerializer
     
     def list(self, request):
-        user_id = get_user_id(request)
+        user_id, user_data = get_user_id(request)
         queryset = Height.objects.filter(user_id=user_id)
         serializer =HeightSerializer(queryset, many=True)
         return Response(serializer.data)
     
     def create(self, request):
-        user_id = get_user_id(request)
+        user_id, user_data = get_user_id(request)
         
         if user_id:
             entry = Height(user_id=user_id, height=request.data['height'])
@@ -234,12 +234,12 @@ class UserStatusViewSet(ViewSet):
     serializer_class = HeightSerializer
     
     def list(self, request):
-        user_id = get_user_id(request)
+        user_id, user_data = get_user_id(request)
 
         return Response({'status': user_id})
     
     def create(self, request):
-        user_id = get_user_id(request)
+        user_id, user_data = get_user_id(request)
 
         return Response({'status': user_id})
 
@@ -249,13 +249,13 @@ class UserInformationViewSet(ViewSet):
     serializer_class = UserInformationSerializer
     
     def list(self, request):
-        user_id = get_user_id(request)
+        user_id, user_data = get_user_id(request)
         queryset = UserInformation.objects.filter(user_id=user_id)
         serializer = UserInformationSerializer(queryset, many=True)
         return Response(serializer.data)
     
     def create(self, request):
-        user_id = get_user_id(request)
+        user_id, user_data = get_user_id(request)
         if user_id:
             entry = UserInformation(user_id=user_id, operating_system=request.data['operating_system'], browser_version=request.data['browser_version'], device=request.data['device'], fcm=request.data['fcm'])
             entry.save()
@@ -267,14 +267,20 @@ class UserInformationViewSet(ViewSet):
     serializer_class = UserInformationSerializer
     
     def list(self, request):
-        user_id = get_user_id(request)
+        user_id, user_data = get_user_id(request)
         queryset = UserInformation.objects.filter(user_id=user_id)
         serializer = UserInformationSerializer(queryset, many=True)
         return Response(serializer.data)
     
     def create(self, request):
-        user_id = get_user_id(request)
+        user_id, user_data = get_user_id(request)
         if user_id:
             entry = UserInformation(user_id=user_id, operating_system=request.data['operating_system'], browser_version=request.data['browser_version'], device=request.data['device'], fcm=request.data['fcm'])
+            entry.first_name = user_data['first_name']
+            entry.last_name = user_data['last_name']
+            entry.dob = user_data['DOB']
+            entry.address = user_data['address']
+            entry.city = user_data['city']
+            entry.zip_code = user_data['zip_code']
             entry.save()
         return Response({'status': user_id})

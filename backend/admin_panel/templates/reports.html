@@ -8,6 +8,14 @@
 </style>
 <div id="content" class="flex">
     <h1>Reports</h1>
+    <form action="./" method="post">
+      {% csrf_token %}
+      <label>
+         Search:
+      </label>
+      <input type="text" name="search" placeholder="type the patient's name..." />
+      <input type="submit" value="search" />
+   </form>
     <table class="reports-table">
        <thead>
           <th>User</th>
@@ -16,7 +24,7 @@
        <tbody>
           {% for e in users %}
           <tr>
-             <td>Patient number 1</td>
+             <td>{{e.first_name}} {{e.last_name}}</td>
              <td><a href="/admin/reports/download/?id={{e.user_id}}">Download Report</a></td>
           </tr>
           {% endfor %}

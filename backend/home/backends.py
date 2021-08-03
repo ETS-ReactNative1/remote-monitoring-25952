@@ -17,6 +17,7 @@ def get_user_id(request):
 
     response = response.json()
     try:
-        return response['user_id']
+        print(response['user']['id'])
+        return response['user']['id'], response['user']
     except:
         return None

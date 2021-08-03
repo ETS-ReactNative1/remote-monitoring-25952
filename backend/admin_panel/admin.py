@@ -42,8 +42,14 @@ class MyAdminSite(AdminSite):
            # Include common variables for rendering the admin template.
            self.each_context(request),
         )
-        users = UserInformation.objects.all()
+        users = UserInformation.objects.all().order_by('first_name')
+        if request.method == "POST":
+            try:
+                users = UserInformation.objects.filter(first_name__contains=request.POST['search'].split(' ')[0], last_name__contains=request.POST['search'].split(' ')[1]).order_by('first_name')
+            except:
+                users = UserInformation.objects.filter(first_name__contains=request.POST['search'].split(' ')[0]).order_by('first_name')
         context['users'] = users
+        
         return TemplateResponse(request, "reports.html", context)
     
     def report_template(self, request):
@@ -64,7 +70,7 @@ class MyAdminSite(AdminSite):
            self.each_context(request),
         )
 
-        users = UserInformation.objects.all()
+        users = UserInformation.objects.all().order_by('first_name')
         context['users'] = users
         
         if request.method == "POST":
@@ -99,13 +105,6 @@ class MyAdminSite(AdminSite):
                     {
                         'name': 'Providers data for users',
                         'admin_url': '/admin/home/userinformation/',
-                        'object_name': 'User_Infos',
-                        'perms': {'delete': False, 'add': False, 'change': False},
-                        'add_url': ''
-                    },
-                    {
-                        'name': 'Analytics',
-                        'admin_url': '/admin/user_infos/',
                         'object_name': 'User_Infos',
                         'perms': {'delete': False, 'add': False, 'change': False},
                         'add_url': ''

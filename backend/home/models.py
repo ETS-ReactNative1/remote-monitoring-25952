@@ -82,7 +82,17 @@ class Height(models.Model):
 
 class UserInformation(models.Model):
     user_id = models.IntegerField()
+    first_name = models.CharField(max_length=64, default="", blank=True)
+    last_name = models.CharField(max_length=64, default="", blank=True)
+    dob = models.CharField(max_length=64, default="", blank=True)
+    address = models.CharField(max_length=64, default="", blank=True, null=True)
+    city = models.CharField(max_length=64, default="", blank=True, null=True)
+    zip_code = models.CharField(max_length=64, default="", blank=True, null=True)
     operating_system = models.CharField(max_length=64)
     browser_version = models.CharField(max_length=64)
     device = models.CharField(max_length=64)
     fcm = models.TextField()
+    last_login_timestamp = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+
+    def __str__(self):
+        return f"{self.first_name} {self.last_name}"
