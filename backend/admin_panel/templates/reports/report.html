@@ -1,156 +1,153 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Account created</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <style type="text/css">
-      @font-face {
-        font-family: 'HelveticaNeueLTPro-Lt';
-        src: url('http://tight-lab-24258.botics.co/static/fonts/HelveticaNeueLTPro-Lt.woff')
-            format('woff'),
-          url('http://tight-lab-24258.botics.co/static/fonts/HelveticaNeueLTPro-Lt.ttf')
-            format('truetype');
-      }
-      * {
-        font-family: HelveticaNeueLTPro-Lt;
-      }
-    </style>
-  </head>
-  <body>
-    <center>
-      <div style="max-width: 800px">
-        <table>
-          <tr>
-            <td>
-              <h2>
-                Patient Name:<br />
-                {{assessment.first_name}} {{assessment.last_name}}
-                {{user_informations.user_id}}
-              </h2>
-              <p>
-                Thank you for completing the prevention assessment. You will
-                find detailed results below. Your doctor will have received a
-                recommendation from PreventScripts on next steps.
-              </p>
-            </td>
-            <td style="width: 33%">
-              <img style="width: 100%" src="https://i.imgur.com/kV1qCwQ.png" />
-            </td>
-          </tr>
-        </table>
-        <div style="text-align: left">
-          <p>
-            The goal of the assessment is to identify your risk for chronic
-            illness and determine if there are some things you and your doctor
-            can do to stop the disease before it starts! This is a proactive
-            approach for your health!
-          </p>
-          <hr />
-          <h2>
-            <span
-              style="
-                background-color: #e4e4e4;
-                padding-top: 5px;
-                text-align: left;
-              "
-              >&nbsp;Pre-diabetes Risk&nbsp;&nbsp;&nbsp;</span
-            >
-          </h2>
-          <p>
-            <u>What does pre-diabetes mean?</u> Prediabetes means you have a
-            higher than normal blood sugar level. It's not high enough to be
-            considered type 2 diabetes yet, but with some simple changes, adults
-            and children with prediabetes can prevent type 2 diabetes.
-          </p>
-          <u
-            >Key Findings from the 2020 National Diabetes Statistics Report
-            include:</u
-          >
-          <ul>
-            <li>34.2 million Americans—just over 1 in 10—have diabetes.</li>
-            <li>
-              88 million American adults—approximately 1 in 3—have prediabetes.
-            </li>
-          </ul>
-          <u>What does diabetes do to your body?</u><br />
-          High Blood sugar damages your body silently for many years before you
-          “feel” symptoms.<br />
-          High Blood sugar damages nerves, blood vessels, and kidneys.<br />
-          Diabetes is the major cause of blindness, kidney failure and
-          neuropathy (constant pain, numbness, tingling and burning sensation in
-          hands and feet), as well as pain and suffering related to poor
-          health.<br />
-
-          <p>
-            You are at an increased risk for Type 2 Diabetes. There is no need
-            to be alarmed. Right now, it doesn't appear that you have Diabetes
-            so that means there are plenty of small steps you can take to
-            reverse this. Your provider will talk to you today about the
-            options.
-          </p>
-
-          <h2>
-            <span
-              style="
-                background-color: #e4e4e4;
-                padding-top: 5px;
-                text-align: left;
-              "
-              >&nbsp;Your Score {{assessment.ADA_RISK}}&nbsp;&nbsp;&nbsp;</span
-            >
-          </h2>
-          <!-- todo -> to be update with a conditional -->
-          <!-- <p>{{score_text}}</p> -->
-          <p>You are at an increased risk for Type 2 Diabetes. There is no need to be alarmed. Right now, it doesn't appear that you have Diabetes so that means there are plenty of small steps you can take to reverse this. Your provider will talk to you today about the options.</p>
-
-          <hr />
-          <h2>
-            <span
-              style="
-                background-color: #e4e4e4;
-                padding-top: 5px;
-                text-align: left;
-              "
-              >&nbsp;BMI {{assessment.BMI}}&nbsp;&nbsp;&nbsp;</span
-            >
-          </h2>
-
-          <!-- todo -> to be update with a conditional -->
-          <!-- <p>{{bmi_text}}</p> -->
-          <p>This is your "Body mass index". BMI can be used to screen for weight categories that may lead to health problems is not diagnostic of the body fatness or health of an individual.his is just one piece of information about your risk f further health conditions. This number can be improved. Your provider will help you along the way.</p>
-
-
-          <h3><i style="font-weight: bold">Your health according to you</i></h3>
-          <table>
-            <tr>
-              <td style="padding: 5px">
-                <h4>Physical Health <u>{{assessment.GLOBAL_HEALTH.PHYSICAL_POINTS_T_SCORE}}</u></h4>
-                <!-- todo -> to be update with a conditional -->
-                <!-- <p>{{physical_health_text}}</p> -->
-                <p>Your beliefs about your own health is lower than the average person. If you have concerns, make sure to speak with your provider about it at your visit.</p>
-
-              </td>
-              <td style="padding: 5px">
-                <h4>Mental Health <u>{{assessment.GLOBAL_HEALTH.MENTAL_POINTS_T_SCORE}}</u></h4>
-                <!-- todo -> to be update with a conditional -->
-                <!-- <p>{{mental_health_text}}</p> -->
-                <p>Your beliefs about your own health is greater than the average person. Keep it up!</p>
-              </td>
-              <td style="padding: 5px">
-                <h4>Motivation <u>{{assessment.MOTIVATION.RESULT}}</u></h4>
-                <!-- todo -> to be update with a conditional -->
-                <!-- <p>{{motivation_text}}</p> -->
-                <p>It seems like you are ready to stay or get healthy! That's great news. Your provider will be talking to you about what's next during your visit.</p>
-              </td>
-            </tr>
-          </table>
-          <p>
-            <span>Regards, </span>
-            <br />
-            <em>Prevent Scripts team</em>
-          </p>
+    <head>
+        
+        <title></title>
+        
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+        
+        <style>
+            * {
+                font-family: 'Poppins', sans-serif;
+            }
+            .row {
+                clear: both;
+                width: 100%;
+            }
+            .row:after {
+                content: "";
+                display: block;
+                clear: both;
+            }
+            .col {
+                float: left;
+            }
+            .overview {
+                width: 90%;
+                margin: 0px auto;
+                padding: 5px 0px;
+                background: #f5f5f4;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="header" style="border-bottom: 2px solid #4c4e53;">
+            <div class="row">
+                <div class="col" style="width: 30%; overflow: hidden;">
+                    <img src="{% static 'img/rm-logo.png' %}" style="width: 100%;" />
+                </div>
+                <div class="col" style="float: right; margin-right: 5%;">
+                    <p>
+                        Patient Name: {{user_informations.first_name}} {{user_informations.last_name}}<br />
+                        DOB: {{user_informations.dob}} <br />
+                        Provider: Dr. Gregory House, MD <br />
+                        Date of Report: {% now "jS F Y H:i" %}. <br />
+                    </p>
+                </div>
+            </div>
         </div>
-      </div>
-    </center>
-  </body>
+        <h1 style="text-align: center; color: #4c4e53; font-weight: 400;">
+            INITIAL SURVEY <b style="color: #68c27f">RESULTS</b>
+        </h1>
+        <div class="overview">
+            <div class="row">
+                <div class="col" style="width: 33.33%; text-align: center;">
+                    <p>
+                        Starting BMI: <b>37.2</b>
+                    </p>
+                </div>
+                <div class="col" style="width: 33.33%; text-align: center;">
+                    <p>
+                        Diabetes Risk  Motivation: <b style="display: inline-block; width: 50px; height: 50px; text-align: center; line-height: 50px; border-radius: 99px; color:#fff; background:#68c27f">7</b>
+                    </p>
+                </div>
+                <div class="col" style="width: 33.33%; text-align: center;">
+                    <p>
+                        Motivation: <b>Extrinsic</b>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="main-data">
+            <div class="row">
+                <div class="col" style="width: 48%; width: calc(50% - 3px); border-right: 3px solid #f5f5f4;">
+                    <h2 style="text-align: center; font-weight: 400;">BIOMETRIC <b style="color: #68c27f">DATA</b></h2>
+                    <img src="{% static 'img/rm-chart.png' %}" style="width: 90%; display: block; margin: 0px auto;" />
+                    
+                    <div class="items-list--container" style="width: 80%; margin: 0px auto;">
+                        <p style="font-size: 24px; color: #4c4e53;">
+                            <span style="background: #f5f5f4; padding: 5px; display: inline-block; width: 70%; text-align: right;">last weight, last month: </span>
+                            <span style="font-weight: bold;">210</span>
+                        </p>
+                        <p style="font-size: 24px; color: #4c4e53;">
+                            <span style="background: #f5f5f4; padding: 5px; display: inline-block; width: 70%; text-align: right;">highest blood pressure: </span>
+                            <span style="font-weight: bold;">125/80</span>
+                        </p>
+                        <p style="font-size: 24px; color: #4c4e53;">
+                            <span style="background: #f5f5f4; padding: 5px; display: inline-block; width: 70%; text-align: right;">lowest blood pressure: </span>
+                            <span style="font-weight: bold;">110/80</span>
+                        </p>
+                        <p style="font-size: 24px; color: #4c4e53;">
+                            <span style="background: #f5f5f4; padding: 5px; display: inline-block; width: 70%; text-align: right;">highest blood sugar: </span>
+                            <span style="font-weight: bold;">not taken</span>
+                        </p>
+                        <p style="font-size: 24px; color: #4c4e53;">
+                            <span style="background: #f5f5f4; padding: 5px; display: inline-block; width: 70%; text-align: right;">lowest blood sugar: </span>
+                            <span style="font-weight: bold;">not taken</span>
+                        </p>
+                    </div>
+                    <div style="background: #f5f5f4; height: 3px; color: #4c4e53;"></div>
+                    <h2 style="text-align: center; font-weight: 400;">RECOMMENDED QUESTIONS <b style="color: #68c27f">TO ASK PATIENT</b></h2>
+                    <div class="items-list--container" style="width: 80%; margin: 0px auto;">
+                        <p><b>1.</b></p>
+                        <p><b>2.</b></p>
+                        <p><b>3.</b></p>
+                        <p><b>4.</b></p>
+                        <p><b>5.</b></p>
+                    </div>
+                </div>
+                <div class="col" style="width: 50%;">
+                    <h2 style="text-align: center; font-weight: 400;">ENGAGEMENT <b style="color: #68c27f">DATA</b></h2>
+                    <div class="items-list--container" style="width: 80%; margin: 0px auto;">
+                        <p style="font-size: 24px; color: #4c4e53;">
+                            <span style="background: #f5f5f4; padding: 5px; display: inline-block; width: 70%; text-align: right;">times opened app: </span>
+                            <span style="font-weight: bold;">10</span>
+                        </p>
+                        <p style="font-size: 24px; color: #4c4e53;">
+                            <span style="background: #f5f5f4; padding: 5px; display: inline-block; width: 70%; text-align: right;">times opened app last month: </span>
+                            <span style="font-weight: bold;">11</span>
+                        </p>
+                        <p style="font-size: 24px; color: #4c4e53;">
+                            <span style="background: #f5f5f4; padding: 5px; display: inline-block; width: 70%; text-align: right;">times stepped on scale: </span>
+                            <span style="font-weight: bold;">7</span>
+                        </p>
+                    </div>
+                    <div style="background: #f5f5f4; height: 3px;"></div>
+                    <img src="{% static 'img/rm-chart-right.png' %}" style="width: 90%; display: block; margin: 0px auto;" />
+                    <div class="items-list--container" style="width: 90%; margin: 0px auto;">
+                        <p style="font-size: 24px; color: #4c4e53; width: 90%; text-align: right;">
+                            <span style="background: #f5f5f4; padding: 5px; display: inline-block; width: 70%; text-align: right;">average daily step count: </span>
+                            <span style="font-weight: bold;">5200</span>
+                        </p>
+                    </div>
+                    <div style="background: #f5f5f4; height: 3px;"></div>
+                    <div class="items-list--container" style="width: 90%; margin: 0px auto;">
+                        <p style="font-size: 24px; color: #4c4e53; width: 90%; text-align: right;">
+                            <span style="background: #f5f5f4; padding: 5px; display: inline-block; width: 70%; text-align: right;">water intake servings:: </span>
+                            <span style="font-weight: bold;">3/8</span>
+                        </p>
+                        <p style="font-size: 24px; color: #4c4e53; width: 90%; text-align: right;">
+                            <span style="background: #f5f5f4; padding: 5px; display: inline-block; width: 70%; text-align: right;">fruit/veggie intake servings: </span>
+                            <span style="font-weight: bold;">4/12</span>
+                        </p>
+                    </div>
+                    <div style="background: #f5f5f4; height: 3px;"></div>
+                    <h2 style="text-align: center; font-weight: 400;">NOTES <b style="color: #68c27f">PATIENT</b></h2>
+                </div>
+            </div>
+        </div>
+    </body>
 </html>
