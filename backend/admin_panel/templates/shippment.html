@@ -1,0 +1,39 @@
+{% extends "admin/base_site.html" %}
+{% block content %}
+<style>
+   .reports-table{
+      margin: 0px;
+      width: 100%;
+   }
+</style>
+<div id="content" class="flex">
+    <h1>Shipping</h1>
+    <form action="./" method="post">
+      {% csrf_token %}
+      <label>
+         Search:
+      </label>
+      <input type="text" name="search" placeholder="type the patient's name..." />
+      <input type="submit" value="search" />
+      <a href="/admin/shipping/export/" style="float: right; background: #447e9b; color: #fff; height: 40px; margin-bottom: 10px; line-height: 40px; padding: 0px 40px; border-radius: 5px;">export csv</a>
+   </form>
+    <table class="reports-table">
+       <thead>
+          <th>User</th>
+          <th>Address</th>
+          <th>City</th>
+          <th>Zipcode</th>
+       </thead>
+       <tbody>
+          {% for e in users %}
+          <tr>
+             <td>{{e.first_name}} {{e.last_name}}</td>
+             <td>{{e.address}}</td>
+             <td>{{e.city}}</td>
+             <td>{{e.zip_code}}</td>
+          </tr>
+          {% endfor %}
+       </tbody>
+    </table>
+ </div>
+{% endblock %}

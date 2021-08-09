@@ -1,3 +1,4 @@
+from django.http import HttpResponse
 from django.contrib.admin import AdminSite
 from django.template.response import TemplateResponse
 from django.urls import path, reverse
@@ -18,6 +19,8 @@ class MyAdminSite(AdminSite):
         my_urls = [
             path('user_infos/', self.admin_view(self.reports), name='reports'),
             path('reports/', self.admin_view(self.reports), name='reports'),
+            path('shipping/', self.admin_view(self.shippment), name='reports'),
+            path('shipping/export/', self.admin_view(self.shippment_csv), name='shippingexport'),
             path('alerts/', self.admin_view(self.alerts), name='reports'),
             path('reports/download/', self.admin_view(self.report_template), name='reports'),
             path('push-notifications/', self.admin_view(self.push_notifications), name='reports'),
@@ -51,6 +54,41 @@ class MyAdminSite(AdminSite):
         context['users'] = users
         
         return TemplateResponse(request, "reports.html", context)
+    
+    def shippment(self, request):
+        request.current_app = self.name
+
+        context = dict(
+           # Include common variables for rendering the admin template.
+           self.each_context(request),
+        )
+        users = UserInformation.objects.all().order_by('first_name')
+        if request.method == "POST":
+            try:
+                users = UserInformation.objects.filter(first_name__contains=request.POST['search'].split(' ')[0], last_name__contains=request.POST['search'].split(' ')[1]).order_by('first_name')
+            except:
+                users = UserInformation.objects.filter(first_name__contains=request.POST['search'].split(' ')[0]).order_by('first_name')
+        context['users'] = users
+        
+        return TemplateResponse(request, "shippment.html", context)
+    
+    def shippment_csv(self, request):
+        request.current_app = self.name
+
+        context = dict(
+           # Include common variables for rendering the admin template.
+           self.each_context(request),
+        )
+        users = UserInformation.objects.all()
+
+        data = "User, Address, City, Zipcode,"
+        for e in users:
+            data += "\n{} {}, {}, {}, {}".format(e.first_name, e.last_name, e.address, e.city, e.zip_code)
+
+        response = HttpResponse (data, content_type='text/csv')
+        response['Content-Disposition'] = 'attachment; filename="report.csv"'
+        
+        return response
     
     def report_template(self, request):
         request.current_app = self.name
@@ -111,7 +149,7 @@ class MyAdminSite(AdminSite):
                     },
                     {
                         'name': 'Shipping',
-                        'admin_url': '/admin/user_infos/',
+                        'admin_url': '/admin/shipping/',
                         'object_name': 'User_Infos',
                         'perms': {'delete': False, 'add': False, 'change': False},
                         'add_url': ''
