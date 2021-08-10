@@ -81,9 +81,9 @@ class MyAdminSite(AdminSite):
         )
         users = UserInformation.objects.all()
 
-        data = "User, Address, City, Zipcode,"
+        data = "User, Address, City, Zipcode, Date joined"
         for e in users:
-            data += "\n{} {}, {}, {}, {}".format(e.first_name, e.last_name, e.address, e.city, e.zip_code)
+            data += "\n{} {}, {}, {}, {}, {}".format(e.first_name, e.last_name, e.address, e.city, e.zip_code, e.date_joined)
 
         response = HttpResponse (data, content_type='text/csv')
         response['Content-Disposition'] = 'attachment; filename="report.csv"'
