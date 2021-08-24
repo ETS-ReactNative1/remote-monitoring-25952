@@ -3,6 +3,7 @@ from django.contrib.admin import AdminSite
 from django.template.response import TemplateResponse
 from django.urls import path, reverse
 from .models import AdminPanel
+from home.models import Hospital, Doctor
 from home.models import UserInformation
 import firebase_admin
 from firebase_admin import credentials
@@ -47,10 +48,15 @@ class MyAdminSite(AdminSite):
         )
         users = UserInformation.objects.all().order_by('first_name')
         if request.method == "POST":
-            try:
-                users = UserInformation.objects.filter(first_name__contains=request.POST['search'].split(' ')[0], last_name__contains=request.POST['search'].split(' ')[1]).order_by('first_name')
-            except:
-                users = UserInformation.objects.filter(first_name__contains=request.POST['search'].split(' ')[0]).order_by('first_name')
+            if request.POST['user_id']:
+                user = UserInformation.objects.get(user_id=request.POST['user_id'])
+                response = user.send_doctor_email()
+                context['sent'] = response
+            else:
+                try:
+                    users = UserInformation.objects.filter(first_name__contains=request.POST['search'].split(' ')[0], last_name__contains=request.POST['search'].split(' ')[1]).order_by('first_name')
+                except:
+                    users = UserInformation.objects.filter(first_name__contains=request.POST['search'].split(' ')[0]).order_by('first_name')
         context['users'] = users
         
         return TemplateResponse(request, "reports.html", context)
@@ -185,3 +191,5 @@ admin_site = MyAdminSite(name='myadmin')
 
 admin_site.register(AdminPanel)
 admin_site.register(UserInformation)
+admin_site.register(Hospital)
+admin_site.register(Doctor)

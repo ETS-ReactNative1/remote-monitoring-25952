@@ -5,6 +5,33 @@ from django.db import models
 from django.db import models
 from django.utils.timezone import now
 
+from common.ishare import *
+
+class Hospital(models.Model):
+    name = models.CharField(max_length=200)
+    slug = models.SlugField(max_length=200, blank=True, null=True)
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name)
+        super(Hospital, self).save(*args, **kwargs)
+
+    def __str__(self) -> str:
+        return self.name
+
+
+class Doctor(models.Model):
+    hospital = models.ForeignKey(Hospital, on_delete=models.CASCADE, related_name='doctors', null=True)
+    first_name = models.CharField(max_length=200)
+    last_name = models.CharField(max_length=200)
+    email = models.EmailField(blank=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self) -> str:
+        return f'{self.first_name} {self.last_name}'
+
 class CustomText(models.Model):
     """
     Boilerplate model to populate the index homepage to demonstrate that the app was
@@ -81,6 +108,7 @@ class Height(models.Model):
     timestamp = models.DateTimeField(auto_now_add= True)
 
 class UserInformation(models.Model):
+    doctor = models.ForeignKey(Doctor, on_delete=models.SET_NULL, related_name='patients', null=True)
     user_id = models.IntegerField()
     first_name = models.CharField(max_length=64, default="", blank=True)
     last_name = models.CharField(max_length=64, default="", blank=True)
@@ -97,3 +125,14 @@ class UserInformation(models.Model):
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
+    
+    def send_doctor_email(self):
+        # Send doctor email - based on the decision tree
+        context = {'user': self}
+
+        html_file = 'reports/report.html'
+
+        response = mail_provider_ishare(
+            direct_address=ISHARE_ACCOUNT_EMAIL, password=ISHARE_ACCOUNT_PASSWORD, to=self.doctor.email, html_file=html_file)
+        
+        return response

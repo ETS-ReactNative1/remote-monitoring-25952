@@ -5,6 +5,7 @@ from rest_framework.authtoken.serializers import AuthTokenSerializer
 from rest_framework.permissions import IsAdminUser
 from rest_framework.viewsets import ModelViewSet, ViewSet
 from rest_framework.authtoken.models import Token
+from rest_framework.decorators import action
 from rest_framework.response import Response
 from home.backends import get_user_id
 from home.api.v1.serializers import (
@@ -284,3 +285,16 @@ class UserInformationViewSet(ViewSet):
             entry.zip_code = user_data['zip_code']
             entry.save()
         return Response({'status': user_id})
+
+
+class AssessmentViewSet(viewsets.ModelViewSet):
+    queryset = UserInformation.objects.all()
+    serializer_class = UserInformationSerializer
+    
+
+    @action(methods=['POST'], detail=True)
+    def mail_provider(self, request, pk=None):
+        ''' will send email to the selected provider '''
+        user = get_object_or_404(UserInformation, id=pk)
+        response = user.send_doctor_email()
+        return Response(response)

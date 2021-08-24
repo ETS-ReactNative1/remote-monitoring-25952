@@ -16,15 +16,24 @@
       <input type="text" name="search" placeholder="type the patient's name..." />
       <input type="submit" value="search" />
    </form>
+   {{sent}}
     <table class="reports-table">
        <thead>
           <th>User</th>
-          <th>Action</th>
+          <th>iShare</th>
+          <th>Download</th>
        </thead>
        <tbody>
           {% for e in users %}
           <tr>
              <td>{{e.first_name}} {{e.last_name}}</td>
+             <td>
+                <form method="POST">
+                  {% csrf_token %}
+                   <input type="hidden" name="user_id" value="{{e.user_id}}" />
+                   <input type="submit" value="send with iShare" />
+                </form>
+             </td>
              <td><a href="/admin/reports/download/?id={{e.user_id}}">Download Report</a></td>
           </tr>
           {% endfor %}
