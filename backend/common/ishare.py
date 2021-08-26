@@ -56,7 +56,8 @@ def send_attachment(direct_address, password, html_file):
     }
 
     # send request
-    r = requests.post(URL, json=data, cert=(cert_file, key_file), verify=verify_file, headers=headers, timeout=30, proxies=proxies)
+    #r = requests.post(URL, json=data, cert=(cert_file, key_file), verify=verify_file, headers=headers, timeout=30, proxies=proxies)
+    r = requests.post(URL, json=data, cert=(cert_file, key_file), verify=verify_file, headers=headers, timeout=30)
     
     # remove the pdf file after send the mail
     os.remove(pdf_file)
@@ -83,7 +84,8 @@ def mail_provider_ishare(direct_address, password, to, html_file):
     }
     
     # send request
-    r = requests.post(URL, json=data, cert=(cert_file, key_file), verify=verify_file, headers=headers, timeout=30, proxies=proxies)
+    #r = requests.post(URL, json=data, cert=(cert_file, key_file), verify=verify_file, headers=headers, timeout=30, proxies=proxies)
+    r = requests.post(URL, json=data, cert=(cert_file, key_file), verify=verify_file, headers=headers, timeout=30)
     
     # return response
     return r.json()
