@@ -20,6 +20,8 @@ def get_user_id(request):
     try:
         user_data = response['user']
         users = UserInformation.objects.filter(user_id=user_data[id])
+        print("Checking existing users: \n")
+        print(users)
         if len(users) == 0:
             entry = UserInformation()
             entry.user_id = user_data['id']
