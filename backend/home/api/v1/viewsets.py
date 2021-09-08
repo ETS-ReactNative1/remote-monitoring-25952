@@ -274,9 +274,11 @@ class UserInformationViewSet(ViewSet):
         return Response(serializer.data)
     
     def create(self, request):
+        print("USER INFO CREATE WAS CALLED***")
         user_id, user_data = get_user_id(request)
         if user_id:
             users = UserInformation.object.filter(user_id=user_id)
+            users_count = UserInformation.object.filter(user_id=user_id).count()
             if len(users) == 0:
                 entry = UserInformation(user_id=user_id, operating_system=request.data['operating_system'], browser_version=request.data['browser_version'], device=request.data['device'], fcm=request.data['fcm'])
                 entry.first_name = user_data['first_name']
