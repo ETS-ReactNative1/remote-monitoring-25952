@@ -19,11 +19,10 @@ def get_user_id(request):
     response = response.json()
     try:
         user_data = response['user']
-        users = UserInformation.objects.filter(user_id=user_data[id])
-        users_count = UserInformation.objects.filter(user_id=user_data[id]).count()
+        users = UserInformation.objects.filter(user_id=user_data['id'])
+        users_count = UserInformation.objects.filter(user_id=user_data['id']).count()
         print("BE AUTH WAS CALLED***")
         print("Checking existing users: \n")
-        print(users)
         if users_count == 0:
             entry = UserInformation()
             entry.user_id = user_data['id']
