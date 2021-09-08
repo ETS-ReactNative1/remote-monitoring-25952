@@ -276,14 +276,23 @@ class UserInformationViewSet(ViewSet):
     def create(self, request):
         user_id, user_data = get_user_id(request)
         if user_id:
-            entry = UserInformation(user_id=user_id, operating_system=request.data['operating_system'], browser_version=request.data['browser_version'], device=request.data['device'], fcm=request.data['fcm'])
-            entry.first_name = user_data['first_name']
-            entry.last_name = user_data['last_name']
-            entry.dob = user_data['DOB']
-            entry.address = user_data['address']
-            entry.city = user_data['city']
-            entry.zip_code = user_data['zip_code']
-            entry.save()
+            users = UserInformation.object.filter(user_id=user_id)
+            if len(users) == 0:
+                entry = UserInformation(user_id=user_id, operating_system=request.data['operating_system'], browser_version=request.data['browser_version'], device=request.data['device'], fcm=request.data['fcm'])
+                entry.first_name = user_data['first_name']
+                entry.last_name = user_data['last_name']
+                entry.dob = user_data['DOB']
+                entry.address = user_data['address']
+                entry.city = user_data['city']
+                entry.zip_code = user_data['zip_code']
+                entry.save()
+            else:
+                entry = users[0]
+                entry.operating_system = request.data['operating_system']
+                entry.browser_version = request.data['browser_version']
+                entry.device = request.data['device']
+                entry.fcm = request.data['fcm']
+                entry.save()
         return Response({'status': user_id})
 
 

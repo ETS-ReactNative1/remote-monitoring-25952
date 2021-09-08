@@ -1,4 +1,5 @@
 import requests
+from .models import UserInformation
 
 def get_user_id(request):
     try:
@@ -17,7 +18,18 @@ def get_user_id(request):
 
     response = response.json()
     try:
-        print(response['user']['id'])
+        user_data = response['user']
+        users = UserInformation.objects.filter(user_id=user_data[id])
+        if len(users) == 0:
+            entry = UserInformation()
+            entry.user_id = user_data['id']
+            entry.first_name = user_data['first_name']
+            entry.last_name = user_data['last_name']
+            entry.dob = user_data['DOB']
+            entry.address = user_data['address']
+            entry.city = user_data['city']
+            entry.zip_code = user_data['zip_code']
+            entry.save()
         return response['user']['id'], response['user']
     except:
         return None
