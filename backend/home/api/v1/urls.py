@@ -15,7 +15,8 @@ from home.api.v1.viewsets import (
     BMIViewSet,
     HeightViewSet,
     UserStatusViewSet,
-    UserInformationViewSet
+    UserInformationViewSet,
+    UserStateViewSet
 )
 
 router = DefaultRouter()
@@ -31,6 +32,7 @@ router.register("bmi", BMIViewSet)
 router.register("height", HeightViewSet)
 router.register("user-status", UserStatusViewSet)
 router.register("user-information", UserInformationViewSet)
+router.register("user-state", UserStateViewSet)
 
 urlpatterns = [
     path("", include(router.urls)),

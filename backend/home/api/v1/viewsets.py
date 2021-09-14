@@ -309,3 +309,21 @@ class AssessmentViewSet(viewsets.ModelViewSet):
         user = get_object_or_404(UserInformation, id=pk)
         response = user.send_doctor_email()
         return Response(response)
+
+
+class UserStateViewSet(ViewSet):
+    queryset = Height.objects.all()
+    serializer_class = HeightSerializer
+    
+    def list(self, request):
+        user_id, user_data = get_user_id(request)
+
+        return Response({'status': user_id})
+    
+    def create(self, request):
+        user_id, user_data = get_user_id(request)
+        user = get_object_or_404(UserInformation, id=pk)
+        user.state = request.POST['state']
+        user.save()
+
+        return Response({'status': user_id})

@@ -114,6 +114,7 @@ class UserInformation(models.Model):
     last_name = models.CharField(max_length=64, default="", blank=True)
     dob = models.CharField(max_length=64, default="", blank=True)
     address = models.CharField(max_length=64, default="", blank=True, null=True)
+    state = models.CharField(max_length=64, default="", blank=True, null=True)
     city = models.CharField(max_length=64, default="", blank=True, null=True)
     zip_code = models.CharField(max_length=64, default="", blank=True, null=True)
     operating_system = models.CharField(max_length=64)
