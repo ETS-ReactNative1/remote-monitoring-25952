@@ -16,7 +16,11 @@
       <input type="text" name="search" placeholder="type the patient's name..." />
       <input type="submit" value="search" />
    </form>
-   {{sent}}
+   {% if sent %}
+   <div style="border: 1px solid #4CAF50;; background: #8BC34A; padding: 10px 15px; margin: 10px 0px; color: #fff">
+      The report has been successfully sent via iShare!
+   </div>
+   {% endif %}
     <table class="reports-table">
        <thead>
           <th>User</th>

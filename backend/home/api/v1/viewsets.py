@@ -323,7 +323,7 @@ class UserStateViewSet(ViewSet):
     def create(self, request):
         user_id, user_data = get_user_id(request)
         user = UserInformation.objects.get(user_id=user_id)
-        user.state = request.POST['state']
+        user.state = request.data['state']
         user.save()
 
         return Response({'status': user_id})
