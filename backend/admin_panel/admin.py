@@ -52,6 +52,7 @@ class MyAdminSite(AdminSite):
                 user = UserInformation.objects.get(user_id=request.POST['user_id'])
                 response = user.send_doctor_email()
                 context['sent'] = True
+                context['sent_msg'] = response
             else:
                 try:
                     users = UserInformation.objects.filter(first_name__contains=request.POST['search'].split(' ')[0], last_name__contains=request.POST['search'].split(' ')[1]).order_by('first_name')
