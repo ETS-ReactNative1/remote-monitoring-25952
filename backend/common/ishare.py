@@ -78,8 +78,8 @@ def mail_provider_ishare(direct_address, password, to, html_file):
         'direct_address': direct_address,
         'password': password,
         'to': to,
-        'subject': 'Assessment',
-        'body': 'Hello from PreventScript App',
+        'subject': 'Report',
+        'body': 'Hello from Remote Consoling',
         'attachmentId': attachment['attachmentID'],
     }
     
@@ -99,8 +99,8 @@ def mail_provider_ishare_without_attachment(direct_address, password, to):
         'direct_address': direct_address,
         'password': password,
         'to': to,
-        'subject': 'Assessment',
-        'body': 'Hello from PreventScript App'
+        'subject': 'Report',
+        'body': 'Hello from Remote Consoling'
     }
     # send request
     r = requests.post(URL, json=data, cert=(cert_file, key_file), verify=verify_file, headers=headers, timeout=30, proxies=proxies)
