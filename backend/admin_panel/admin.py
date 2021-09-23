@@ -119,8 +119,9 @@ class MyAdminSite(AdminSite):
         context['users'] = users
         
         if request.method == "POST":
-            cred = credentials.Certificate(os.path.join(settings.BASE_DIR, 'firebase_admin.json'))
-            firebase_admin.initialize_app(cred)
+            if not firebase_admin._apps:
+                cred = credentials.Certificate(os.path.join(settings.BASE_DIR, 'firebase_admin.json'))
+                firebase_admin.initialize_app(cred)
 
             fcm = UserInformation.objects.get(user_id=request.POST['user_id']).fcm
 
