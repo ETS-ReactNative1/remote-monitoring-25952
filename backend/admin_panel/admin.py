@@ -144,7 +144,7 @@ class MyAdminSite(AdminSite):
             height = int(height_parts[0])*12+int(height_parts[1])
             weight = Weight.objects.filter(user_id=user_informations.user_id).order_by('id')[0]
             weight = int(weight.weight)
-            context['bmi'] = (weight/height/height)*703
+            context['bmi'] = int((weight/height/height)*703)
         except:
             context['bmi'] = 0
         # TIMES OPENED APP
