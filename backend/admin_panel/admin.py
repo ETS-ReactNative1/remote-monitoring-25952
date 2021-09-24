@@ -2,6 +2,7 @@ from django.http import HttpResponse
 from django.contrib.admin import AdminSite
 from django.template.response import TemplateResponse
 from django.urls import path, reverse
+from django.db.models import Q
 from .models import AdminPanel
 from home.models import Hospital, Doctor
 from home.models import UserInformation
@@ -10,6 +11,8 @@ from firebase_admin import credentials
 from firebase_admin import messaging
 from remote_monitoring_25952 import settings
 import os
+
+import datetime
 
 class MyAdminSite(AdminSite):
     site_header = 'Admin Dashboard'
@@ -36,6 +39,14 @@ class MyAdminSite(AdminSite):
            # Include common variables for rendering the admin template.
            self.each_context(request),
         )
+        today = datetime.datetime.today() - datetime.timedelta(days=3)
+        users = UserInformation.objects.filter(Q(last_login_timestamp__lt=today)|Q(last_login_timestamp=None))
+        
+        for e in users:
+            print(e)
+            print(e.last_login_timestamp)
+        
+        context['users'] = users
 
         return TemplateResponse(request, "alerts.html", context)
     

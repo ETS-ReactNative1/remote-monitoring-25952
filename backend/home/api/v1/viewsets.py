@@ -25,6 +25,7 @@ from home.api.v1.serializers import (
 )
 from home.models import CustomText, HomePage, Weight, BloodPressure, BloodSugar, VegetablesAndFruits, Water, Steps, Height, UserInformation
 
+from datetime import datetime
 
 # USER REGISTER
 class UserRegister(generics.GenericAPIView):
@@ -241,6 +242,9 @@ class UserStatusViewSet(ViewSet):
     
     def create(self, request):
         user_id, user_data = get_user_id(request)
+        user = UserInformation.objects.get(user_id=user_id)
+        user.last_login_timestamp = datetime.now()
+        user.save()
 
         return Response({'status': user_id})
 
