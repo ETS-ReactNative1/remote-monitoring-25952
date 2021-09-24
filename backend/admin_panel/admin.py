@@ -4,7 +4,7 @@ from django.template.response import TemplateResponse
 from django.urls import path, reverse
 from django.db.models import Q
 from .models import AdminPanel
-from home.models import Hospital, Doctor, Weight, Steps
+from home.models import Hospital, Doctor, Weight, Steps, OpenedApp, BloodPressure, BloodSugar, VegetablesAndFruits, Water, Height
 from home.models import UserInformation
 import firebase_admin
 from firebase_admin import credentials
@@ -137,7 +137,86 @@ class MyAdminSite(AdminSite):
         context['steps_data'] = steps_data
         context['steps_labels'] = steps_labels
 
-        print(steps)
+        # BMI
+        try:
+            height = Height.objects.filter(user_id=user_informations.user_id).order_by('id')[0]
+            height_parts = height.height.split('.')
+            height = int(height_parts[0])*12+int(height_parts[1])
+            weight = Weight.objects.filter(user_id=user_informations.user_id).order_by('id')[0]
+            weight = int(weight.weight)
+            context['bmi'] = (weight/height/height)*703
+        except:
+            context['bmi'] = 0
+        # TIMES OPENED APP
+        times_op = OpenedApp.objects.filter(user_id=user_informations.user_id).count()
+        context['times_op'] = times_op
+
+        # TIMES OPENED APP LAST MONTH
+        month_ago = datetime.datetime.today() - datetime.timedelta(days=30)
+        times_op_lm = OpenedApp.objects.filter(user_id=user_informations.user_id).filter(Q(timestamp__gt=month_ago)|Q(timestamp=None)).count()
+        context['times_op_lm'] = times_op_lm
+
+        # TIMES STEPPED ON SCALE
+        times_stepped_scale = Weight.objects.filter(user_id=user_informations.user_id).count()
+        context['times_stepped_scale'] = times_stepped_scale
+
+        # LAST WEIGHT, LAST MONTH
+        try:
+            weight = Weight.objects.filter(user_id=user_informations.user_id).order_by('id')[0]
+            context['lastest_weight'] = weight.weight
+        except:
+            context['lastest_weight'] = 'not taken'
+        # HIGHEST BLOOD PRESSURE
+        try:
+            highest_bp = BloodPressure.objects.filter(user_id=user_informations.user_id).order_by('systolic')[0]
+            context['highest_bp'] = f"{highest_bp.systolic}/{highest_bp.diastolic}"
+        except:
+            context['highest_bp'] = 'not taken'
+
+        # LOWEST BLOOD PRESSURE
+        try:
+            lowest_bp = BloodPressure.objects.filter(user_id=user_informations.user_id).order_by('systolic')[-1]
+            context['lowest_bp'] = f"{lowest_bp.systolic}/{lowest_bp.diastolic}"
+        except:
+            context['lowest_bp'] = 'not taken'
+
+        # HIGHEST BLOOD SUGAR
+        try:
+            highest_bs = BloodSugar.objects.filter(user_id=user_informations.user_id).order_by('blood_sugar')[0]
+            context['highest_bs'] = highest_bs.blood_sugar
+        except:
+            context['highest_bs'] = 'not taken'
+
+        # LOWEST BLOOD SUGAR
+        try:
+            lowest_bs = BloodPressure.objects.filter(user_id=user_informations.user_id).order_by('blood_sugar')[-1]
+            context['lowest_bs'] = lowest_bs.blood_sugar
+        except:
+            context['lowest_bs'] = 'not taken'
+
+        # AVERAGE DAILY STEP COUNT
+        try:
+            steps_taken = Steps.objects.filter(user_id=user_informations)
+            all_steps = 0
+            for e in steps_taken:
+                all_steps = all_steps + int(e.steps)
+            context['steps_average'] = int(all_steps/steps_taken.count())
+        except:
+            context['steps_average'] = 0
+
+        # WATER INTAKE SERVINGS
+        try:
+            water_intake = Water.objects.filter(user_id=user_informations.user_id).order_by('timestamp')[0]
+            context['water_intake'] = water_intake.water
+        except:
+            context['water_intake'] = 0
+
+        # FRUIT/VEGGIES INTAKE SERVINGS
+        try:
+            fv_intake = VegetablesAndFruits.objects.filter(user_id=user_informations.user_id).order_by('timestamp')[0]
+            context['fv_intake'] = int(fv_intake.fruits)+int(fv_intake.vegetables)
+        except:
+            context['fv_intake'] = 0
         
         return TemplateResponse(request, "reports/report.html", context)
     
