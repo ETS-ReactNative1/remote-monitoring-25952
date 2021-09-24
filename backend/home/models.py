@@ -107,6 +107,10 @@ class Height(models.Model):
     height = models.CharField(max_length=8)
     timestamp = models.DateTimeField(auto_now_add= True)
 
+class OpenedApp(models.Model):
+    user_id = models.IntegerField()
+    timestamp = models.DateTimeField(auto_now_add= True)
+
 class UserInformation(models.Model):
     doctor = models.ForeignKey(Doctor, on_delete=models.SET_NULL, related_name='patients', null=True)
     user_id = models.IntegerField()

@@ -4,7 +4,7 @@ from django.template.response import TemplateResponse
 from django.urls import path, reverse
 from django.db.models import Q
 from .models import AdminPanel
-from home.models import Hospital, Doctor
+from home.models import Hospital, Doctor, Weight, Steps
 from home.models import UserInformation
 import firebase_admin
 from firebase_admin import credentials
@@ -117,6 +117,28 @@ class MyAdminSite(AdminSite):
         )
         user_informations = UserInformation.objects.get(user_id=request.GET['id'])
         context['user_informations'] = user_informations
+        weights = Weight.objects.filter(user_id=user_informations.user_id)[:10]
+        weight_labels = []
+        weight_data = []
+        for e in weights:
+            weight_labels.append(e.timestamp)
+            weight_data.append(e.weight)
+        
+        context['weight_data'] = weight_data
+        context['weight_labels'] = weight_labels
+
+        steps = Steps.objects.filter(user_id=user_informations.user_id)[:10]
+        steps_labels = []
+        steps_data = []
+        for e in steps:
+            steps_labels.append(e.timestamp)
+            steps_data.append(e.steps)
+        
+        context['steps_data'] = steps_data
+        context['steps_labels'] = steps_labels
+
+        print(steps)
+        
         return TemplateResponse(request, "reports/report.html", context)
     
     def push_notifications(self, request):

@@ -23,7 +23,7 @@ from home.api.v1.serializers import (
     HeightSerializer,
     UserInformationSerializer
 )
-from home.models import CustomText, HomePage, Weight, BloodPressure, BloodSugar, VegetablesAndFruits, Water, Steps, Height, UserInformation
+from home.models import CustomText, HomePage, Weight, BloodPressure, BloodSugar, VegetablesAndFruits, Water, Steps, Height, OpenedApp, UserInformation
 
 from datetime import datetime
 
@@ -245,6 +245,8 @@ class UserStatusViewSet(ViewSet):
         user = UserInformation.objects.get(user_id=user_id)
         user.last_login_timestamp = datetime.now()
         user.save()
+        entry_open = OpenedApp(user_id=user_id)
+        entry_open.save()
 
         return Response({'status': user_id})
 
