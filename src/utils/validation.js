@@ -23,6 +23,9 @@ const loginValidationSchema_= yup.object().shape({
     zipcode: yup
     .string()
     .required('Zip Code is Required'),
+    state: yup
+    .string()
+    .required('State is Required'),
 });
 
 export {loginValidationSchema, loginValidationSchema_};

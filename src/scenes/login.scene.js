@@ -8,10 +8,12 @@ import { Formik } from 'formik'
 import {Text, Header, Input} from './../components/index';
 import { styles as _ } from '../styles';
 import moment from 'moment';
-import { colors, url, width } from '../utils/constant';
+import { colors, url, url2, width } from '../utils/constant';
 import { loginValidationSchema } from '../utils/validation';
 import { POSTJSON } from './../utils/api';
 import axios from 'axios';
+import { SafeAreaView } from 'react-navigation';
+import { StatusBar } from 'react-native';
 
 const dobInitial = {
     state:false,
@@ -51,15 +53,16 @@ const Login = ({...props}) => {
     }
 
     const handleSubmit = (values) => {
-        const {name, lastname, email} = values;
+        const {name, lastname, email, password} = values;
         const {navigation} = props;
         setLoading(true);
-        axios.post(`${url}signup/`, {
+        axios.post(`${url2}signup/`, {
             first_name:name,
             last_name:lastname,
             email:email,
             device_id:getUniqueId(),
-            DOB:moment(dob.value).format('YYYY-MM-DD')
+            DOB:moment(dob.value).format('YYYY-MM-DD'),
+            password
         }, {
             headers: {
                 'accept': 'application/json',
@@ -76,9 +79,8 @@ const Login = ({...props}) => {
             }).catch(error => {
 
                 setLoading(false);
-                Alert.alert('Something went wrong.');
-                console.log(error)
-            })
+                Alert.alert(error.response.data ? (error.response.data.email).toString() : 'Something went wrong.');
+             })
     }
 
     const handleDobValidate = () => {
@@ -96,15 +98,31 @@ const Login = ({...props}) => {
     }else{
         return(
             <View style={[_.container,_.blackBg,_.relative]}>
-               <Header/>
-              
+             {Platform.OS == 'ios' &&
+         <SafeAreaView
+         style={{ backgroundColor: 'white' }}
+       >
+                <StatusBar
+           translucent
+           barStyle="light-content"
+         />
+       </SafeAreaView>
+         } 
+             <Header
+         backBtn
+         navigation={props.navigation}
+         />
+        
+        
+          
                <KeyboardAvoidingView
                 behavior='padding' keyboardVerticalOffset={ Platform.OS === 'ios' ? 40 : -280}
                >
+                   
                    <ScrollView>
-                       <View style={_.blackBg}>
+                   <View style={[_.blackBg,_.flexFull]}>
                <View style={[_.elements,_.alignICenter,_.flexFull,_.mt40]}>
-                 <Text style={[_.fs30,_.textCenter,_.textWhite]}>Log In</Text>
+                 <Text style={[_.fs30,_.textCenter,_.textWhite]}>Sign Up</Text>
                  <Formik
                 validationSchema={loginValidationSchema}
                 enableReinitialize
@@ -112,7 +130,8 @@ const Login = ({...props}) => {
                   name:'',
                   lastname:'',
                   email:'',
-                  dob:''
+                  dob:'',
+                  password:''
                 }}
                 onSubmit={values => handleSubmit(values)}>
                    {({
@@ -145,6 +164,14 @@ const Login = ({...props}) => {
                         label="Email"
                         keyboardType={'email-address'}
                     />
+                     {/* <Input
+                        placeholder="Enter Your Password"
+                        value={values.password}
+                        onChangeText={handleChange('password')}
+                        eStyles={{borderColor: (errors.password && touched.password) ? 'red' : '#fff'}}
+                        label="Password"
+                        secureTextEntry={true}
+                    /> */}
                     <Text style={[_.para,_.mt20]}>Date of Birth</Text>
                     <TouchableOpacity 
                     onPress={() => setDob({...dob,visible:true})}

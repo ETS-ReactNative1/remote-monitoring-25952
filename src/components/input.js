@@ -5,7 +5,7 @@ import {colors, width, height, fontFamily} from '../utils/constant';
 import Text from './text';
 
 const Input = ({...props}) => {
-    const {placeholder, value, onChangeText, label,keyboardType, eStyles = {}} = props;
+    const {placeholder, value, onChangeText, label,keyboardType, eStyles = {},secureTextEntry=false} = props;
     return(
         <View style={[_.column,_.mt20]}>
             <Text style={[s.label,_.fs14]}>{label}</Text>
@@ -16,6 +16,7 @@ const Input = ({...props}) => {
                 style={[s.input,eStyles]}
                 placeholderTextColor={colors[3]}
                 keyboardType={keyboardType}
+                secureTextEntry={secureTextEntry}
             />
         </View>
     );
@@ -34,7 +35,7 @@ const s = StyleSheet.create({
         paddingLeft:15,
         marginTop:5,
         height:52,
-        fontFamily:fontFamily
+        // fontFamily:fontFamily
     }
 });
 

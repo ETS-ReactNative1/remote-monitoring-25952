@@ -9,29 +9,33 @@ const navOptions = [
     {
         id:0,
         name:'Home',
-        image:require('../assets/icons/home.png')
+        image:require('../assets/icons/home.png'),
+        routeTo:'Dashboard'
     },
     {
         id:1,
         name:'My Plans',
-        image:require('../assets/icons/plans.png')
+        image:require('../assets/icons/plans.png'),
+        routeTo:'MyPlans'
     },
     {
-        id:0,
+        id:2,
         name:'Setting',
-        image:require('../assets/icons/settings.png')
+        image:require('../assets/icons/settings.png'),
+        routeTo:'Setting'
     },
     {
-        id:0,
+        id:3,
         name:'Support',
         image:require('../assets/icons/support.png'),
-        routeTo:'Starter'
+        routeTo:'Support'
     },
     
 ]
 
-const BottomNav = ({...props}) => {
 
+const BottomNav = ({...props}) => {
+    const {eventFired} = props;
     const handlePageChange = (item) => {
         if(item.routeTo != null){
             props.navigation.navigate(item.routeTo)

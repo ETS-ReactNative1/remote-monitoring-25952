@@ -5,14 +5,19 @@ import { ActivityIndicator } from 'react-native-paper';
 import {Text, Header, Input} from './../components/index';
 import { styles as _ } from '../styles';
 import { Formik } from 'formik'
-import { colors, url, width } from '../utils/constant';
+import { colors, url, url2, width } from '../utils/constant';
 import { loginValidationSchema_ } from '../utils/validation';
 import axios from 'axios';
-
+import { GETJSON, POSTJSON } from '../utils/api';
+import { getDevice, getModel, getSystemName ,getSystemVersion } from 'react-native-device-info';
+import messaging from '@react-native-firebase/messaging';
+import { SafeAreaView } from 'react-navigation';
+import { StatusBar } from 'react-native';
 
 const Register = ({...props}) => {
     const [keyboardStatus, setKeyboardStatus] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [fcmToken, setfcmToken] = useState('');
     console.disableYellowBox = true;
 
     useEffect(() => {
@@ -26,16 +31,50 @@ const Register = ({...props}) => {
         };
       }, []);
 
+      useEffect(async() => {
+        handleNotification();
+        console.log(props.navigation.getParam('data'))
+      },[]);
+
+    const handleNotification = async () => {
+        const enabled = await messaging().hasPermission();
+        if (enabled) {
+            getToken();
+        } else {
+            requestPermission();
+        }
+        // this.createNotificationListeners();
+    }
+    
+   const getToken = async () => {
+      let fcmToken_ = await messaging().getToken();
+            // console.log(fcmToken)
+            if (fcmToken_) {
+                AsyncStorage.setItem('fcmToken', fcmToken_);
+                setfcmToken(fcmToken_);
+            }
+    };
+    
+   const requestPermission = async () => {
+        try {
+            await messaging().requestPermission();
+            getToken();
+        } catch (error) {
+            alert('permission rejected');
+        }
+    };
     
       const _keyboardDidShow = () => setKeyboardStatus(true);
       const _keyboardDidHide = () => setKeyboardStatus(false);
-      const handleSubmit = (values)=>{
-        const {address, city, zipcode} = values;
+      const handleSubmit = async(values)=>{
+        
+        const {address, city, zipcode, state} = values;
         const {navigation} = props;
         const data = navigation.getParam('data');
-        setLoading(true);
+        // setLoading(true);
         const user = data.user;
-        axios.put(`${url}signup/${user.id}/address_details/`, {
+        console.log(data)
+        axios.put(`${url2}signup/${user.id}/address_details/`, {
             first_name:user.first_name,
             last_name:user.last_name,
             email:user.email,
@@ -43,17 +82,26 @@ const Register = ({...props}) => {
             DOB:user.DOB,
             address:address,
             city:city,
-            zipcode:zipcode
+            zip_code:zipcode
         }, {
             headers: {
                 'accept': 'application/json',
                 'X-CSRFToken':`3bsBVgmFfZZs4aQ6Hb7lhmmkjSLzy7PHhVl0r4tMbrl2n2rp5NYwO1pRqHdjOpiJ`,
             }
         })
-            .then(response => {
-                console.log(response)
+            .then(async response => {
                 AsyncStorage.setItem('token',data.token);
+                AsyncStorage.setItem('userId',data.user.id.toString());
+                AsyncStorage.setItem('name',`${user.first_name} ${user.last_name}`);
                 setLoading(false);
+                try{
+                    const hui_ = await POSTJSON({state:state},'user-state/',data.token, 0);
+                    const hui =  await handleUserInfo(data.token);
+                    console.log(hui,"SDDSA")
+                }catch(error) {
+                    console.log(error);
+                }
+             
                 navigation.navigate('AuthLoader')
             }).catch(error => {
                 setLoading(false);
@@ -61,6 +109,26 @@ const Register = ({...props}) => {
                 console.log(error,)
             })        
     }
+
+    const handleUserInfo = async (token) => new Promise(async(resolve,reject) => {
+        const dataset = {
+            operating_system:getSystemName(),
+            browser_version:getSystemVersion(),
+            device:getModel(),
+            fcm:fcmToken
+        }
+        console.log(dataset)
+        try{
+            const res = await POSTJSON(dataset,'user-information/'
+            ,token,0);
+            resolve(res);
+        }catch(error){
+            reject(error)
+            console.log(error.response)
+        }
+    }) 
+
+
     if(loading){
         return (
             <View style={[_._locontainer, _._lohorizontal]}>
@@ -70,6 +138,16 @@ const Register = ({...props}) => {
     }else{
     return(
         <View style={[_.container,_.blackBg,_.relative]}>
+               {Platform.OS == 'ios' &&
+        <SafeAreaView
+        style={{ backgroundColor: 'white' }}
+      >
+               <StatusBar
+          translucent
+          barStyle="light-content"
+        />
+      </SafeAreaView>
+         }
            <Header
            backBtn={true}
            back_={true}
@@ -82,7 +160,7 @@ const Register = ({...props}) => {
                <ScrollView>
                    <View style={_.blackBg}>
                <View style={[_.elements,_.alignICenter,_.flexFull,_.mt20]}>
-             <Text style={[_.fs24,_.textCenter,_.textWhite,{maxWidth:width-80}]}>Congratulations! Welcome to the Provider Coaching Program.</Text>
+             <Text style={[_.fs24,_.textCenter,_.textWhite,{maxWidth:width-80}]}>Congratulations! Welcome to the Prevention Remote Monitoring Program.</Text>
              <Text style={[_.para,_.mt20,_._lwpara,_.fs16,_.textCenter,{maxWidth:width-60}]}>We will work very closely with your provider to help you reduce your risk for chronic illness.
                 We will send you a PreventScripts Starter Kit ASAP in the mail. Please let us know your address below.</Text>
                 <Formik
@@ -133,6 +211,13 @@ const Register = ({...props}) => {
                         />
                     </View>
                </View>
+               <Input
+                    placeholder="Enter Your State"
+                    value={values.state}
+                    eStyles={{borderColor: (errors.city && touched.city) ? 'red' : '#fff'}}
+                    onChangeText={handleChange('state')}
+                    label="State"
+                />
           {!keyboardStatus &&
             <TouchableOpacity 
               onPress={() => handleSubmit()}

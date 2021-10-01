@@ -1,0 +1,98 @@
+import React from 'react';
+import {StyleSheet} from 'react-native';
+import {width,colors,height} from '../utils/constant';
+
+const _plan = StyleSheet.create({
+    _dhbtn:{
+        flexDirection:'row',
+        backgroundColor:colors[4],
+        width:width - 60,
+        borderRadius:100,
+        height:56,
+        alignSelf:'center',
+        alignItems:'center',
+        justifyContent:'center',
+    },
+    _dhbtext:{
+        color:colors[0],
+        fontWeight:'bold',
+        fontSize:18,
+        marginRight:5
+    },
+    _dlbtn:{
+        width:width-60,
+        alignItems:'center',
+        backgroundColor:colors[5],
+        minHeight:55,
+        borderRadius:10,
+        alignSelf:'center',
+        alignItems:'center',
+        padding:10,
+    },
+    _dliconcon:{
+        backgroundColor:colors[6],
+        width:25,
+        height:25,
+        alignItems:'center',
+        justifyContent:'center',
+        borderRadius:4
+    },
+    _dglist:{
+        width:width/3-30,
+        backgroundColor:colors[4],
+        height:120,
+        borderRadius:20,
+        alignItems:'center',
+        justifyContent:'center',
+        margin:8,
+        padding:5
+    },
+    _drcontainer:{
+        backgroundColor:'#3c4640',
+        padding:20,
+    },
+    _dlist:{
+        padding:10,
+        borderBottomWidth:1/2,
+        borderBottomColor:colors[0],
+        height:60,
+        width,
+        justifyContent:'center'
+    },
+    _drbtn:{
+        backgroundColor:colors[4],
+        height:60,
+        borderRadius:20,
+        width:width/2-40,
+        alignItems:'center',
+        justifyContent:'center',
+        margin:10
+    },
+    _dtrackthumb:{
+        backgroundColor:colors[4],width:40,height:40,borderRadius:100,alignItems:'center',justifyContent:'center',marginTop:0
+    },
+    _dmbtn:{
+        backgroundColor:colors[4],
+        width:width-60,
+        borderRadius:4,
+        height:60
+    },
+    _dpslistcontainer:{
+        backgroundColor:'transparent',
+        width:width-60,
+        alignSelf:'center',
+        marginTop:20,
+        padding:10,
+        borderRadius:8,
+        borderWidth:1,
+        borderColor:colors[0]
+    },
+    _drstextinput:{
+        width:40,height:40,borderRadius:0,backgroundColor:colors[2],textAlign:'center',borderWidth:2,borderColor:colors[3],fontSize:18
+    },
+    _dpslistincon:{
+        backgroundColor:colors[4],marginLeft:5,borderRadius:100,width:30,height:30,borderWidth:1,borderColor:colors[4],alignItems:'center',justifyContent:'center'
+    }
+});
+
+export default _plan;
