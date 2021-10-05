@@ -260,8 +260,8 @@ class UserStatusDebugViewSet(ViewSet):
 
         open_apps = OpenedApp.objects.all()
         users = UserInformation.objects.all()
-        serializer_users = UserInformationSerializer(users)
-        serializer_opens = OpenedAppSerializer(open_apps)
+        serializer_users = UserInformationSerializer(users, many=True)
+        serializer_opens = OpenedAppSerializer(open_apps, many=True)
         return Response({'data_users': serializer_users.data, 'data_opens': serializer_opens.data})
 
 class UserInformationViewSet(ViewSet):
