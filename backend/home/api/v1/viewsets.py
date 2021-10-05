@@ -246,7 +246,7 @@ class UserStatusViewSet(ViewSet):
         user = UserInformation.objects.get(user_id=user_id)
         user.last_login_timestamp = datetime.now()
         user.save()
-        entry_open = OpenedApp(user_id=user_id)
+        entry_open = OpenedApp(user_id=int(user_id))
         entry_open.save()
 
         return Response({'status': user_id})
