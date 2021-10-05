@@ -1,0 +1,23 @@
+{
+  "images" : [
+    {
+      "filename" : "PreventScripts_logo_fullcolor.png",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "filename" : "PreventScripts_logo_fullcolor-1.png",
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "filename" : "PreventScripts_logo_fullcolor-2.png",
+      "idiom" : "universal",
+      "scale" : "3x"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

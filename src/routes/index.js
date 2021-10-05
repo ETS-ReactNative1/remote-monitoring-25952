@@ -23,6 +23,7 @@ const AuthLoading = ({...props}) => {
         }else{
             navigate('UnSigned');
         }
+        // 
     }
 
     return(

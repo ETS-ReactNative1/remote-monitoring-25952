@@ -1,0 +1,127 @@
+{
+  "project_info": {
+    "project_number": "1037024394086",
+    "firebase_url": "https://preventscripts-862d3.firebaseio.com",
+    "project_id": "preventscripts-862d3",
+    "storage_bucket": "preventscripts-862d3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1037024394086:android:3d9bf22390293faf",
+        "android_client_info": {
+          "package_name": "com.preventscripts.app.android"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1037024394086-r0343j5fp2vmp5lfv46k0aqa4rbem17p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAGMwfU0oIy3UkpDrAkxlhWHZSmzvQG8fQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1037024394086-r0343j5fp2vmp5lfv46k0aqa4rbem17p.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1037024394086-8hc5h72onmjldt0tcenclh5cgs2gbr50.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.remote.monitoring"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1037024394086:android:7db96587cd0aedd87fe6a7",
+        "android_client_info": {
+          "package_name": "com.preventscripts.app.rpm"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1037024394086-r0343j5fp2vmp5lfv46k0aqa4rbem17p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAGMwfU0oIy3UkpDrAkxlhWHZSmzvQG8fQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1037024394086-r0343j5fp2vmp5lfv46k0aqa4rbem17p.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1037024394086-8hc5h72onmjldt0tcenclh5cgs2gbr50.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.remote.monitoring"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1037024394086:android:80d502ae6c2d18477fe6a7",
+        "android_client_info": {
+          "package_name": "com.remote_monitoring_25952"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1037024394086-nmlg83nnu4f2jbv4uo9anve8rtsevlge.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.remote_monitoring_25952",
+            "certificate_hash": "a40a66d3dc54e5ed587662a63b7a755483da763b"
+          }
+        },
+        {
+          "client_id": "1037024394086-r0343j5fp2vmp5lfv46k0aqa4rbem17p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAGMwfU0oIy3UkpDrAkxlhWHZSmzvQG8fQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1037024394086-r0343j5fp2vmp5lfv46k0aqa4rbem17p.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1037024394086-8hc5h72onmjldt0tcenclh5cgs2gbr50.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.remote.monitoring"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

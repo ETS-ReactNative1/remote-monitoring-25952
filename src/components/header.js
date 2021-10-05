@@ -1,12 +1,15 @@
 import React from 'react';
+import { StatusBar } from 'react-native';
+import { Platform } from 'react-native';
 import {View, Image, StyleSheet, AsyncStorage, TouchableOpacity} from 'react-native';
 import { Icon } from 'react-native-elements';
+import { SafeAreaView } from 'react-navigation';
 import {styles as _} from '../styles';
 import {colors, width, height, iconLink} from '../utils/constant';
 import Text from './text';
 
 const Header = ({...props}) => {
-    const {backBtn = false,back_ = false,sideBtn = false, navigation, logout} = props;
+    const {backBtn = false,back_ = false,sideBtn = false, navigation, logout, mode = 0, onBack} = props;
 
     const handleLogout = () =>{
         AsyncStorage.removeItem('token');
@@ -15,17 +18,26 @@ const Header = ({...props}) => {
 
     return(
         <View style={s.container}>
+            
             {backBtn &&
-            <View style={[_.flexFull,{alignItems:'flex-start',marginLeft:10}]}>
-                {back_ &&
+            <TouchableOpacity 
+            onPress={() => 
+                {
+                    if(mode == 1){
+                        onBack()
+                    }else{
+                        navigation.goBack()
+
+                    }
+                }}
+            style={[{alignItems:'flex-start',marginLeft:10}]}>
                 <Icon
                     name="arrow-left"
                     color={colors[1]}
                     type="feather"
                     size={26}
                 />
-             }
-            </View>
+            </TouchableOpacity>
             }
             <View style={_.flexFull}>
                 <Image
@@ -35,7 +47,7 @@ const Header = ({...props}) => {
                  />
             </View>
             {sideBtn &&
-            <View style={[_.flexFull,{alignItems:'flex-end',marginRight:10}]}>
+            <View style={[{alignItems:'flex-end',marginRight:10}]}>
                 <Icon
                     name="bars"
                     color={colors[1]}

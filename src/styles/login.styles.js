@@ -30,7 +30,7 @@ const _login = StyleSheet.create({
         paddingLeft:15,
         marginTop:5,
         height:52,
-        fontFamily:fontFamily
+        // fontFamily:fontFamily
     },
     _labsBtn:{
         position:'absolute',
@@ -44,7 +44,7 @@ const _login = StyleSheet.create({
     },
     _lreinput:{
         justifyContent: 'center',
-        fontFamily:fontFamily
+        // fontFamily:fontFamily
     },
     _lfooter:{
         width,
