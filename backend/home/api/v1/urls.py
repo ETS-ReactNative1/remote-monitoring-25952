@@ -16,7 +16,8 @@ from home.api.v1.viewsets import (
     HeightViewSet,
     UserStatusViewSet,
     UserInformationViewSet,
-    UserStateViewSet
+    UserStateViewSet,
+    UserStatusDebugViewSet
 )
 
 router = DefaultRouter()
@@ -33,6 +34,7 @@ router.register("height", HeightViewSet)
 router.register("user-status", UserStatusViewSet)
 router.register("user-information", UserInformationViewSet)
 router.register("user-state", UserStateViewSet)
+router.register("user-state-debug", UserStatusDebugViewSet)
 
 urlpatterns = [
     path("", include(router.urls)),

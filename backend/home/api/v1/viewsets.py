@@ -21,7 +21,8 @@ from home.api.v1.serializers import (
     WaterSerializer,
     StepsSerializer,
     HeightSerializer,
-    UserInformationSerializer
+    UserInformationSerializer,
+    OpenedAppSerializer
 )
 from home.models import CustomText, HomePage, Weight, BloodPressure, BloodSugar, VegetablesAndFruits, Water, Steps, Height, OpenedApp, UserInformation
 
@@ -250,6 +251,18 @@ class UserStatusViewSet(ViewSet):
 
         return Response({'status': user_id})
 
+class UserStatusDebugViewSet(ViewSet):
+    queryset = Height.objects.all()
+    serializer_class = HeightSerializer
+    
+    def list(self, request):
+        user_id, user_data = get_user_id(request)
+
+        open_apps = OpenedApp.objects.all()
+        users = UserInformation.objects.all()
+        serializer_users = UserInformationSerializer(users)
+        serializer_opens = OpenedAppSerializer(open_apps)
+        return Response({'data_users': serializer_users.data, 'data_opens': serializer_opens.data})
 
 class UserInformationViewSet(ViewSet):
     queryset = UserInformation.objects.all()
