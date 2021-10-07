@@ -58,7 +58,7 @@ const Dashboard = ({...props}) => {
     },[]);
 
     const handleMaintainUser = () => {
-        GETJSON('user-status/').then(response => {
+        POSTJSON({},'user-status/').then(response => {
             console.log(response)
         }).catch(error => {
             console.log(error)
