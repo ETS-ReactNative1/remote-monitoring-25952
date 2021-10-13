@@ -13,6 +13,9 @@ from remote_monitoring_25952 import settings
 import os
 
 import datetime
+import pytz
+
+utc=pytz.UTC
 
 class MyAdminSite(AdminSite):
     site_header = 'Admin Dashboard'
@@ -81,11 +84,41 @@ class MyAdminSite(AdminSite):
            self.each_context(request),
         )
         users = UserInformation.objects.all().order_by('first_name')
+        
         if request.method == "POST":
             try:
                 users = UserInformation.objects.filter(first_name__contains=request.POST['search'].split(' ')[0], last_name__contains=request.POST['search'].split(' ')[1]).order_by('first_name')
             except:
                 users = UserInformation.objects.filter(first_name__contains=request.POST['search'].split(' ')[0]).order_by('first_name')
+            
+            # FILTER BY DATE
+            try:
+                start_date = datetime.datetime.strptime(request.POST['start_date'], '%Y-%m-%d')
+                #users.filter(Q(date_joined__gte=request.POST['start_date']))
+                filtered_users = []
+                for e in users:
+                    if e.date_joined > utc.localize(start_date):
+                        filtered_users.append(e)
+                
+                users = filtered_users
+            
+            except Exception as e:
+                print(e)
+                print('nothing parsed')
+            
+            try:
+                end_date = datetime.datetime.strptime(request.POST['end_date'], '%Y-%m-%d')
+                #users.filter(Q(date_joined__lt=request.POST['end_date']))
+                filtered_users = []
+                for e in users:
+                    if e.date_joined < utc.localize(end_date):
+                        filtered_users.append(e)
+                
+                users = filtered_users
+            except Exception as e:
+                print(e)
+                print('nothing parsed')
+        
         context['users'] = users
         
         return TemplateResponse(request, "shippment.html", context)
@@ -99,9 +132,9 @@ class MyAdminSite(AdminSite):
         )
         users = UserInformation.objects.all()
 
-        data = "User, Address, City, Zipcode, Date joined"
+        data = "User, Address, State, City, Zipcode, Date joined"
         for e in users:
-            data += "\n{} {}, {}, {}, {}, {}".format(e.first_name, e.last_name, e.address, e.city, e.zip_code, e.date_joined)
+            data += "\n{} {}, {}, {}, {}, {}".format(e.first_name, e.last_name, e.address, e.state, e.city, e.zip_code, e.date_joined)
 
         response = HttpResponse (data, content_type='text/csv')
         response['Content-Disposition'] = 'attachment; filename="report.csv"'

@@ -10,11 +10,15 @@
     <h1>Shipping</h1>
     <form action="./" method="post">
       {% csrf_token %}
-      <label>
-         Search:
+      <label style="margin-right: 15px">
+         Filter:
       </label>
       <input type="text" name="search" placeholder="type the patient's name..." />
-      <input type="submit" value="search" />
+      <label style="margin-left: 15px">Start date:</label>
+      <input type="date" name="start_date" placeholder="start date" />
+      <label style="margin-left: 15px">End date:</label>
+      <input type="date" name="end_date" placeholder="end date" style="margin-right: 15px" />
+      <input type="submit" value="Filter" />
       <a href="/admin/shipping/export/" style="float: right; background: #447e9b; color: #fff; height: 40px; margin-bottom: 10px; line-height: 40px; padding: 0px 40px; border-radius: 5px;">export csv</a>
    </form>
     <table class="reports-table">
