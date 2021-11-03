@@ -150,10 +150,12 @@ class MyAdminSite(AdminSite):
         )
         this_month = datetime.datetime.now().month
         last_month = this_month - 1
-
+        today = datetime.datetime.today()
+        month_ago = datetime.datetime.today() - datetime.timedelta(days=30)
+        
         user_informations = UserInformation.objects.get(user_id=request.GET['id'])
         context['user_informations'] = user_informations
-        weights = Weight.objects.filter(user_id=user_informations.user_id, timestamp__month=this_month)[:10]
+        weights = Weight.objects.filter(user_id=user_informations.user_id, Q(timestamp__gt=month_ago), Q(timestamp__lt=today))
         weight_labels = []
         weight_data = []
         for e in weights:
@@ -163,7 +165,7 @@ class MyAdminSite(AdminSite):
         context['weight_data'] = weight_data
         context['weight_labels'] = weight_labels
 
-        steps = Steps.objects.filter(user_id=user_informations.user_id, timestamp__month=this_month)[:10]
+        steps = Steps.objects.filter(user_id=user_informations.user_id, Q(timestamp__gt=month_ago), Q(timestamp__lt=today))
         steps_labels = []
         steps_data = []
         for e in steps:
@@ -188,7 +190,6 @@ class MyAdminSite(AdminSite):
         context['times_op'] = times_op
 
         # TIMES OPENED APP LAST MONTH
-        month_ago = datetime.datetime.today() - datetime.timedelta(days=30)
         times_op_lm = OpenedApp.objects.filter(user_id=user_informations.user_id).filter(Q(timestamp__gt=month_ago)|Q(timestamp=None)).count()
         context['times_op_lm'] = times_op_lm
 
@@ -270,8 +271,8 @@ class MyAdminSite(AdminSite):
                 water_intake_avg_this_month += int(e.water)
             water_intake_avg_this_month = water_intake_avg_this_month / len(water_intake_avg_this_month_list)
             
-            context['water_intake_avg_this_month'] = water_intake_avg_this_month
-            context['water_intake_avg_last_month'] = water_intake_avg_last_month
+            context['water_intake_avg_this_month'] = "{:.2f}".format(water_intake_avg_this_month)
+            context['water_intake_avg_last_month'] = "{:.2f}".format(water_intake_avg_last_month)
         except:
             context['water_intake_avg_this_month'] = 0
             context['water_intake_avg_last_month'] = 0
@@ -292,8 +293,8 @@ class MyAdminSite(AdminSite):
                 veggie_intake_avg_this_month += int(e.vegetables)
             veggie_intake_avg_this_month = veggie_intake_avg_this_month / len(veggie_intake_avg_this_month_list)
             
-            context['veggie_intake_avg_this_month'] = veggie_intake_avg_this_month
-            context['veggie_intake_avg_last_month'] = veggie_intake_avg_last_month
+            context['veggie_intake_avg_this_month'] = "{:.2f}".format(veggie_intake_avg_this_month)
+            context['veggie_intake_avg_last_month'] = "{:.2f}".format(veggie_intake_avg_last_month)
         except:
             context['veggie_intake_avg_this_month'] = 0
             context['veggie_intake_avg_last_month'] = 0
@@ -314,8 +315,8 @@ class MyAdminSite(AdminSite):
                 fruit_intake_avg_this_month += int(e.fruits)
             fruit_intake_avg_this_month = fruit_intake_avg_this_month / len(fruit_intake_avg_this_month_list)
             
-            context['fruit_intake_avg_this_month'] = fruit_intake_avg_this_month
-            context['fruit_intake_avg_last_month'] = fruit_intake_avg_last_month
+            context['fruit_intake_avg_this_month'] = "{:.2f}".format(fruit_intake_avg_this_month)
+            context['fruit_intake_avg_last_month'] = "{:.2f}".format(fruit_intake_avg_last_month)
         except:
             context['fruit_intake_avg_this_month'] = 0
             context['fruit_intake_avg_last_month'] = 0
