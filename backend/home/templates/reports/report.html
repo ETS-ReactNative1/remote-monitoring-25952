@@ -38,7 +38,7 @@
             <table width="100%">
                 <tr>
                     <td style="width:66%">
-                        <img src="rm-logo.png" style="min-width: 250px;width: 45%;" />
+                        <img src="{% static 'img/rm-logo.png' %}" style="min-width: 250px;width: 45%;" />
                     </td>
                     <td>
                         <span style="width:100px">Patient Name:</span>{{user_informations.first_name}} {{user_informations.last_name}}<br />
@@ -125,7 +125,7 @@
                                 </td>
                                 <td style="font-weight: bold;padding-left: 10px;">
                                     <!-- {{lastest_weight}}   -->
-                                    125/82
+                                    {{most_recent_bs}}
                                 </td>
                             </tr>
                             <tr>
@@ -136,7 +136,7 @@
                                 </td>
                                 <td style="font-weight: bold;padding-left: 10px;">
                                     <!-- {{highest_bp}}   -->
-                                    110
+                                    {{most_recent_bsu}}
                                 </td>
                             </tr>
                             <tr>
@@ -147,7 +147,7 @@
                                 </td>
                                 <td style="font-weight: bold;padding-left: 10px;">
                                     <!-- {{lowest_bp}}   -->
-                                    125
+                                    {{avg_bsu_this_month}}
                                 </td>
                             </tr>
                             <tr>
@@ -158,7 +158,7 @@
                                 </td>
                                 <td style="font-weight: bold;padding-left: 10px;">
                                     <!-- {{highest_bs}}   -->
-                                    10
+                                    N/A
                                 </td>
                             </tr>
                             <!-- <tr>
@@ -180,11 +180,11 @@
                             </tr>
                             <tr>
                                 <td width="2%">&nbsp;</td>
-                                <td colspan="2">9/20/21 Eat Less Sugar</td>
+                                <td colspan="2"> </td>
                             </tr>
                             <tr>
                                 <td width="2%">&nbsp;</td>
-                                <td colspan="2">9/3/21 Move More</td>
+                                <td colspan="2"> </td>
                             </tr>
                             <!-- <tr>
                                 <td width="2%">&nbsp;</td>
@@ -307,8 +307,8 @@
                                 </td>
                                 <td style="font-weight: bold;padding-left: 10px;display: inline-flex;height: 45px;
                                 align-items: center;">
-                                   <p style="font-weight: bold;text-align: center;width: 60px;">2/1</p>
-                                   <p style="font-weight: bold;margin-left: 20px;text-align: center;width: 60px;">3/4</p>
+                                   <p style="font-weight: bold;text-align: center;width: 60px;">water_intake_avg_last_month/1</p>
+                                   <p style="font-weight: bold;margin-left: 20px;text-align: center;width: 60px;">water_intake_avg_this_month/4</p>
                                 </td>
                             </tr>
                             <tr>
@@ -318,8 +318,8 @@
                                 </td>
                                 <td style="font-weight: bold;padding-left: 10px;display: inline-flex;height: 45px;
                                 align-items: center;">
-                                    <p style="font-weight: bold;text-align: center;width: 60px;">2/1</p>
-                                    <p style="font-weight: bold;margin-left: 20px;text-align: center;width: 60px;">3/4</p>
+                                    <p style="font-weight: bold;text-align: center;width: 60px;">veggie_intake_avg_last_month/1</p>
+                                    <p style="font-weight: bold;margin-left: 20px;text-align: center;width: 60px;">veggie_intake_avg_this_month/4</p>
                              
                                 </td>
                             </tr>
@@ -331,8 +331,8 @@
                                 </td>
                                 <td style="font-weight: bold;padding-left: 10px;display: inline-flex;height: 45px;
                                 align-items: center;">
-                                    <p style="font-weight: bold;text-align: center;width:60px">2/1</p>
-                                    <p style="font-weight: bold;margin-left: 20px;text-align: center;width:60px">3/4</p>
+                                    <p style="font-weight: bold;text-align: center;width:60px">fruit_intake_avg_last_month/1</p>
+                                    <p style="font-weight: bold;margin-left: 20px;text-align: center;width:60px">fruit_intake_avg_this_month/4</p>
                                 </td>
                             </tr>
                             <tr>

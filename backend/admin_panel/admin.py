@@ -148,9 +148,12 @@ class MyAdminSite(AdminSite):
            # Include common variables for rendering the admin template.
            self.each_context(request),
         )
+        this_month = datetime.datetime.now().month
+        last_month = this_month - 1
+
         user_informations = UserInformation.objects.get(user_id=request.GET['id'])
         context['user_informations'] = user_informations
-        weights = Weight.objects.filter(user_id=user_informations.user_id)[:10]
+        weights = Weight.objects.filter(user_id=user_informations.user_id, timestamp__month=this_month)[:10]
         weight_labels = []
         weight_data = []
         for e in weights:
@@ -160,7 +163,7 @@ class MyAdminSite(AdminSite):
         context['weight_data'] = weight_data
         context['weight_labels'] = weight_labels
 
-        steps = Steps.objects.filter(user_id=user_informations.user_id)[:10]
+        steps = Steps.objects.filter(user_id=user_informations.user_id, timestamp__month=this_month)[:10]
         steps_labels = []
         steps_data = []
         for e in steps:
@@ -250,6 +253,100 @@ class MyAdminSite(AdminSite):
             context['fv_intake'] = int(fv_intake.fruits)+int(fv_intake.vegetables)
         except:
             context['fv_intake'] = 0
+        
+
+        
+        # daily average water intake
+        try:
+            water_intake_avg_last_month_list = Water.objects.filter(user_id=user_informations.user_id, timestamp__month=last_month)
+            water_intake_avg_this_month_list = Water.objects.filter(user_id=user_informations.user_id, timestamp__month=this_month)
+            water_intake_avg_this_month = 0
+            water_intake_avg_last_month = 0
+            for e in water_intake_avg_last_month_list:
+                water_intake_avg_last_month += int(e.water)
+            water_intake_avg_last_month = water_intake_avg_last_month / len(water_intake_avg_last_month_list)
+            
+            for e in water_intake_avg_this_month_list:
+                water_intake_avg_this_month += int(e.water)
+            water_intake_avg_this_month = water_intake_avg_this_month / len(water_intake_avg_this_month_list)
+            
+            context['water_intake_avg_this_month'] = water_intake_avg_this_month
+            context['water_intake_avg_last_month'] = water_intake_avg_last_month
+        except:
+            context['water_intake_avg_this_month'] = 0
+            context['water_intake_avg_last_month'] = 0
+
+        # daily average veggie intake
+        try:
+            veggie_intake_avg_last_month_list = VegetablesAndFruits.objects.filter(user_id=user_informations.user_id, timestamp__month=last_month)
+            veggie_intake_avg_this_month_list = VegetablesAndFruits.objects.filter(user_id=user_informations.user_id, timestamp__month=this_month)
+            
+            veggie_intake_avg_this_month = 0
+            veggie_intake_avg_last_month = 0
+            
+            for e in veggie_intake_avg_last_month_list:
+                veggie_intake_avg_last_month += int(e.vegetables)
+            veggie_intake_avg_last_month = veggie_intake_avg_last_month / len(veggie_intake_avg_last_month_list)
+            
+            for e in veggie_intake_avg_this_month_list:
+                veggie_intake_avg_this_month += int(e.vegetables)
+            veggie_intake_avg_this_month = veggie_intake_avg_this_month / len(veggie_intake_avg_this_month_list)
+            
+            context['veggie_intake_avg_this_month'] = veggie_intake_avg_this_month
+            context['veggie_intake_avg_last_month'] = veggie_intake_avg_last_month
+        except:
+            context['veggie_intake_avg_this_month'] = 0
+            context['veggie_intake_avg_last_month'] = 0
+        
+        # daily average fruit intake
+        try:
+            fruit_intake_avg_last_month_list = VegetablesAndFruits.objects.filter(user_id=user_informations.user_id, timestamp__month=last_month)
+            fruit_intake_avg_this_month_list = VegetablesAndFruits.objects.filter(user_id=user_informations.user_id, timestamp__month=this_month)
+            
+            fruit_intake_avg_this_month = 0
+            fruit_intake_avg_last_month = 0
+            
+            for e in fruit_intake_avg_last_month_list:
+                fruit_intake_avg_last_month += int(e.fruits)
+            fruit_intake_avg_last_month = fruit_intake_avg_last_month / len(fruit_intake_avg_last_month_list)
+            
+            for e in fruit_intake_avg_this_month_list:
+                fruit_intake_avg_this_month += int(e.fruits)
+            fruit_intake_avg_this_month = fruit_intake_avg_this_month / len(fruit_intake_avg_this_month_list)
+            
+            context['fruit_intake_avg_this_month'] = fruit_intake_avg_this_month
+            context['fruit_intake_avg_last_month'] = fruit_intake_avg_last_month
+        except:
+            context['fruit_intake_avg_this_month'] = 0
+            context['fruit_intake_avg_last_month'] = 0
+
+        # most recent blood pressure
+        try:
+            most_recent_bs = BloodPressure.objects.filter(user_id=user_informations.user_id).order_by('timestamp')[0]
+            context['most_recent_bs'] = "{}/{}".format(most_recent_bs.systolic, most_recent_bs.diastolic)
+        except:
+            context['most_recent_bs'] = 'not taken'
+        # most recent blood sugar
+        try:
+            most_recent_bsu = BloodSugar.objects.filter(user_id=user_informations.user_id).order_by('blood_sugar')[0]
+            context['most_recent_bsu'] = most_recent_bsu.blood_sugar
+        except:
+            context['most_recent_bsu'] = 'not taken'
+        # average 30 day blood sugar
+        try:
+            avg_bsu_this_month_list = BloodSugar.objects.filter(user_id=user_informations.user_id, timestamp__month=this_month)
+            avg_bsu_this_month = 0
+            
+            for e in avg_bsu_this_month_list:
+                avg_bsu_this_month += int(e.blood_sugar)
+            
+            avg_bsu_this_month = avg_bsu_this_month / len(avg_bsu_this_month_list)
+            
+            context['avg_bsu_this_month'] = avg_bsu_this_month
+        except:
+            context['avg_bsu_this_month'] = 'not taken'
+        
+        # blood sugar readings taken in 30 day
         
         return TemplateResponse(request, "reports/report.html", context)
     
