@@ -155,7 +155,7 @@ class MyAdminSite(AdminSite):
         
         user_informations = UserInformation.objects.get(user_id=request.GET['id'])
         context['user_informations'] = user_informations
-        weights = Weight.objects.filter(user_id=user_informations.user_id, Q(timestamp__gt=month_ago), Q(timestamp__lt=today))
+        weights = Weight.objects.filter(user_id=user_informations.user_id).filter(Q(timestamp__gt=month_ago) and Q(timestamp__lt=today))
         weight_labels = []
         weight_data = []
         for e in weights:
@@ -165,7 +165,7 @@ class MyAdminSite(AdminSite):
         context['weight_data'] = weight_data
         context['weight_labels'] = weight_labels
 
-        steps = Steps.objects.filter(user_id=user_informations.user_id, Q(timestamp__gt=month_ago), Q(timestamp__lt=today))
+        steps = Steps.objects.filter(user_id=user_informations.user_id).filter(Q(timestamp__gt=month_ago) and Q(timestamp__lt=today))
         steps_labels = []
         steps_data = []
         for e in steps:
