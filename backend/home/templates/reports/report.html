@@ -44,7 +44,7 @@
                         <span style="width:100px">Patient Name:</span>{{user_informations.first_name}} {{user_informations.last_name}}<br />
                         <span style="width:100px">DOB:</span> {{user_informations.dob}} <br />
                        <span style="width:100px">Provider:</span>  {{user_informations.doctor.first_name}} {{user_informations.doctor.last_name}} <br />
-                        <span style="width:100px">Date of Report:</span> {% date_generate_report|date:'jS F Y H:i' %}. <br />
+                        <span style="width:100px">Date of Report:</span> {{ date_generate_report|date:'jS F Y H:i' }}. <br />
                     </td>
                 </tr>
             </table>

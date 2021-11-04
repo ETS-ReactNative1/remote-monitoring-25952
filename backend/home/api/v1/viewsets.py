@@ -2,7 +2,7 @@ from rest_framework import viewsets, generics, permissions
 from django.contrib.auth import authenticate
 from rest_framework.authentication import SessionAuthentication, TokenAuthentication
 from rest_framework.authtoken.serializers import AuthTokenSerializer
-from rest_framework.permissions import IsAdminUser
+from rest_framework.permissions import IsAdminUser, AllowAny
 from rest_framework.viewsets import ModelViewSet, ViewSet
 from rest_framework.authtoken.models import Token
 from rest_framework.decorators import action
@@ -254,11 +254,11 @@ class UserStatusViewSet(ViewSet):
 class UserStatusDebugViewSet(ViewSet):
     queryset = Height.objects.all()
     serializer_class = HeightSerializer
-    
+    permission_classes = [AllowAny]
     def list(self, request):
-        user_id, user_data = get_user_id(request)
+        #user_id, user_data = get_user_id(request)
 
-        open_apps = OpenedApp.objects.all()
+        open_apps = OpenedApp.objects.filter(user_id=request.data['user_id'])
         users = UserInformation.objects.all()
         serializer_users = UserInformationSerializer(users, many=True)
         serializer_opens = OpenedAppSerializer(open_apps, many=True)
