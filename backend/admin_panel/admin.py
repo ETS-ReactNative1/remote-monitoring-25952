@@ -152,7 +152,9 @@ class MyAdminSite(AdminSite):
         last_month = this_month - 1
         today = datetime.datetime.today()
         month_ago = datetime.datetime.today() - datetime.timedelta(days=30)
-        
+        date_generate_report = datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(hours=5)
+        context['date_generate_report'] = date_generate_report
+
         user_informations = UserInformation.objects.get(user_id=request.GET['id'])
         context['user_informations'] = user_informations
         weights = Weight.objects.filter(user_id=user_informations.user_id).filter(Q(timestamp__gt=month_ago) and Q(timestamp__lt=today))
@@ -271,8 +273,8 @@ class MyAdminSite(AdminSite):
                 water_intake_avg_this_month += int(e.water)
             water_intake_avg_this_month = water_intake_avg_this_month / len(water_intake_avg_this_month_list)
             
-            context['water_intake_avg_this_month'] = "{:.2f}".format(water_intake_avg_this_month)
-            context['water_intake_avg_last_month'] = "{:.2f}".format(water_intake_avg_last_month)
+            context['water_intake_avg_this_month'] = int(water_intake_avg_this_month)*10
+            context['water_intake_avg_last_month'] = int(water_intake_avg_last_month)*10
         except:
             context['water_intake_avg_this_month'] = 0
             context['water_intake_avg_last_month'] = 0
