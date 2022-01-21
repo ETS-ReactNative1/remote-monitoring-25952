@@ -2,6 +2,9 @@
 {% block content %}
 <div id="content" class="flex">
     <h1>Push Notifications</h1>
+    {% if user_not_registered %}
+    <h2 style="margin: 10px 0px">The user is not longer registered on the app. The token has expired.</h2>
+    {% endif %}
     <form method="post">
         {% csrf_token %}
         <div class="row">

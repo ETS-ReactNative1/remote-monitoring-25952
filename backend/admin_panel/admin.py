@@ -370,15 +370,19 @@ class MyAdminSite(AdminSite):
 
             fcm = UserInformation.objects.get(pk=request.POST['user_id']).fcm
 
-            message = messaging.Message(
-                notification=messaging.Notification(
-                    title=request.POST['title'],
-                    body=request.POST['message'],
-                ),
-                token=fcm,
-            )
-            
-            response = messaging.send(message)
+            try:
+                message = messaging.Message(
+                    notification=messaging.Notification(
+                        title=request.POST['title'],
+                        body=request.POST['message'],
+                    ),
+                    token=fcm,
+                )
+                
+                response = messaging.send(message)
+            except:
+                context["user_not_registered"] = 1
+
             
             print(response)
 
