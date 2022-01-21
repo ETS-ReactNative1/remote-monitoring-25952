@@ -10,11 +10,6 @@ from common.ishare import *
 class Hospital(models.Model):
     name = models.CharField(max_length=200)
 
-    def save(self, *args, **kwargs):
-        if not self.slug:
-            self.slug = slugify(self.name)
-        super(Hospital, self).save(*args, **kwargs)
-
     def __str__(self) -> str:
         return self.name
 
