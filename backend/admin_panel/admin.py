@@ -1,5 +1,6 @@
 from django.http import HttpResponse
 from django.contrib.admin import AdminSite
+from django.contrib import admin
 from django.template.response import TemplateResponse
 from django.urls import path, reverse
 from django.db.models import Q
@@ -380,11 +381,11 @@ class MyAdminSite(AdminSite):
                 )
                 
                 response = messaging.send(message)
+                print(response)
             except:
                 context["user_not_registered"] = 1
 
-            
-            print(response)
+        
 
         return TemplateResponse(request, "push-notifications.html", context)
 
@@ -441,6 +442,12 @@ class MyAdminSite(AdminSite):
 admin_site = MyAdminSite(name='myadmin')
 
 admin_site.register(AdminPanel)
-admin_site.register(UserInformation)
+
+
+class UserInformationAdmin(admin.ModelAdmin):
+  list_display = ('id', 'first_name', 'last_name')
+
+admin_site.register(UserInformation, UserInformationAdmin)
+
 admin_site.register(Hospital)
 admin_site.register(Doctor)

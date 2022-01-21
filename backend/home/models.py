@@ -9,7 +9,6 @@ from common.ishare import *
 
 class Hospital(models.Model):
     name = models.CharField(max_length=200)
-    slug = models.SlugField(max_length=200, blank=True, null=True)
 
     def save(self, *args, **kwargs):
         if not self.slug:
