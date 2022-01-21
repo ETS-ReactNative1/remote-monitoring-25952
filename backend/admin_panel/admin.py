@@ -368,7 +368,7 @@ class MyAdminSite(AdminSite):
                 cred = credentials.Certificate(os.path.join(settings.BASE_DIR, 'firebase_admin.json'))
                 firebase_admin.initialize_app(cred)
 
-            fcm = UserInformation.objects.get(user_id=request.POST['user_id']).fcm
+            fcm = UserInformation.objects.get(pk=request.POST['user_id']).fcm
 
             message = messaging.Message(
                 notification=messaging.Notification(
