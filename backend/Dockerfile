@@ -1,4 +1,4 @@
-FROM ubuntu:bionic
+FROM python:3.8-slim as base
 
 ENV LANG C.UTF-8
 ARG DEBIAN_FRONTEND=noninteractive

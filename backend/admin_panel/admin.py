@@ -236,7 +236,7 @@ class MyAdminSite(AdminSite):
 
         # AVERAGE DAILY STEP COUNT
         try:
-            steps_taken = Steps.objects.filter(user_id=user_informations)
+            steps_taken = Steps.objects.filter(user_id=user_informations.user_id)
             all_steps = 0
             for e in steps_taken:
                 all_steps = all_steps + int(e.steps)
@@ -277,7 +277,7 @@ class MyAdminSite(AdminSite):
             context['water_intake_avg_this_month'] = int(water_intake_avg_this_month)*10
             context['water_intake_avg_last_month'] = int(water_intake_avg_last_month)*10
         except Exception as e:
-            context['water_intake_avg_this_month'] = str(e)
+            context['water_intake_avg_this_month'] = str(e) + 'number of entries {len(water_intake_avg_last_month_list)}'
             context['water_intake_avg_last_month'] = 0
 
         # daily average veggie intake
