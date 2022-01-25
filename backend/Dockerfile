@@ -7,8 +7,8 @@ ARG SECRET_KEY
 
 # libpq-dev and python3-dev help with psycopg2
 RUN apt-get update \
-  && apt-get install -y python3.7-dev python3-pip libpq-dev curl wget wkhtmltopdf \
-  && apt-get clean all \
+  && apt-get install -y --no-install-recommends python3-dev libpq-dev gcc curl wget wkhtmltopdf \
+  && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
   && rm -rf /var/lib/apt/lists/*
   # You can add additional steps to the build by appending commands down here using the
   # format `&& <command>`. Remember to add a `\` at the end of LOC 12.
