@@ -250,7 +250,7 @@ class MyAdminSite(AdminSite):
                 all_steps = all_steps + int(e.steps)
             context['steps_average'] = int(all_steps/steps_taken.count())
         except Exception as e:
-            context['steps_average'] = 0
+            context['steps_average'] = str(e)
 
         # WATER INTAKE SERVINGS
         try:
@@ -270,17 +270,21 @@ class MyAdminSite(AdminSite):
         
         # daily average water intake
         try:
-            water_intake_avg_last_month_list = Water.objects.filter(user_id=user_informations.user_id)
-            water_intake_avg_this_month_list = Water.objects.filter(user_id=user_informations.user_id)
+            water_intake_avg_last_month_list = Water.objects.filter(user_id=user_informations.user_id, timestamp__month=last_month)
+            water_intake_avg_this_month_list = Water.objects.filter(user_id=user_informations.user_id, timestamp__month=this_month)
             water_intake_avg_this_month = 0
             water_intake_avg_last_month = 0
             for e in water_intake_avg_last_month_list:
                 water_intake_avg_last_month += int(e.water)
-            water_intake_avg_last_month = water_intake_avg_last_month / len(water_intake_avg_last_month_list)
+            
+            if len(water_intake_avg_last_month_list):
+                water_intake_avg_last_month = water_intake_avg_last_month / len(water_intake_avg_last_month_list)
             
             for e in water_intake_avg_this_month_list:
                 water_intake_avg_this_month += int(e.water)
-            water_intake_avg_this_month = water_intake_avg_this_month / len(water_intake_avg_this_month_list)
+            
+            if len(water_intake_avg_this_month_list):
+                water_intake_avg_this_month = water_intake_avg_this_month / len(water_intake_avg_this_month_list)
             
             context['water_intake_avg_this_month'] = int(water_intake_avg_this_month)*10
             context['water_intake_avg_last_month'] = int(water_intake_avg_last_month)*10
@@ -290,19 +294,23 @@ class MyAdminSite(AdminSite):
 
         # daily average veggie intake
         try:
-            veggie_intake_avg_last_month_list = VegetablesAndFruits.objects.filter(user_id=user_informations.user_id)
-            veggie_intake_avg_this_month_list = VegetablesAndFruits.objects.filter(user_id=user_informations.user_id)
+            veggie_intake_avg_last_month_list = VegetablesAndFruits.objects.filter(user_id=user_informations.user_id, timestamp__month=last_month)
+            veggie_intake_avg_this_month_list = VegetablesAndFruits.objects.filter(user_id=user_informations.user_id, timestamp__month=this_month)
             
             veggie_intake_avg_this_month = 0
             veggie_intake_avg_last_month = 0
             
             for e in veggie_intake_avg_last_month_list:
                 veggie_intake_avg_last_month += int(e.vegetables)
-            veggie_intake_avg_last_month = veggie_intake_avg_last_month / len(veggie_intake_avg_last_month_list)
+            
+            if len(veggie_intake_avg_last_month_list):
+                veggie_intake_avg_last_month = veggie_intake_avg_last_month / len(veggie_intake_avg_last_month_list)
             
             for e in veggie_intake_avg_this_month_list:
                 veggie_intake_avg_this_month += int(e.vegetables)
-            veggie_intake_avg_this_month = veggie_intake_avg_this_month / len(veggie_intake_avg_this_month_list)
+            
+            if len(veggie_intake_avg_this_month_list):
+                veggie_intake_avg_this_month = veggie_intake_avg_this_month / len(veggie_intake_avg_this_month_list)
             
             context['veggie_intake_avg_this_month'] = "{:.2f}".format(veggie_intake_avg_this_month)
             context['veggie_intake_avg_last_month'] = "{:.2f}".format(veggie_intake_avg_last_month)
@@ -320,11 +328,15 @@ class MyAdminSite(AdminSite):
             
             for e in fruit_intake_avg_last_month_list:
                 fruit_intake_avg_last_month += int(e.fruits)
-            fruit_intake_avg_last_month = fruit_intake_avg_last_month / len(fruit_intake_avg_last_month_list)
+            
+            if len(fruit_intake_avg_last_month_list):
+                fruit_intake_avg_last_month = fruit_intake_avg_last_month / len(fruit_intake_avg_last_month_list)
             
             for e in fruit_intake_avg_this_month_list:
                 fruit_intake_avg_this_month += int(e.fruits)
-            fruit_intake_avg_this_month = fruit_intake_avg_this_month / len(fruit_intake_avg_this_month_list)
+            
+            if len(fruit_intake_avg_this_month_list):
+                fruit_intake_avg_this_month = fruit_intake_avg_this_month / len(fruit_intake_avg_this_month_list)
             
             context['fruit_intake_avg_this_month'] = "{:.2f}".format(fruit_intake_avg_this_month)
             context['fruit_intake_avg_last_month'] = "{:.2f}".format(fruit_intake_avg_last_month)
