@@ -278,7 +278,7 @@ class MyAdminSite(AdminSite):
             context['water_intake_avg_this_month'] = int(water_intake_avg_this_month)*10
             context['water_intake_avg_last_month'] = int(water_intake_avg_last_month)*10
         except Exception as e:
-            context['water_intake_avg_this_month'] = str(e) + f'number of entries {len(water_intake_avg_last_month_list)}'
+            context['water_intake_avg_this_month'] = str(e) + f'number of entries {last_month}'
             context['water_intake_avg_last_month'] = 0
 
         # daily average veggie intake
