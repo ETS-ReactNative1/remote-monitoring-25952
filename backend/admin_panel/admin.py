@@ -241,22 +241,22 @@ class MyAdminSite(AdminSite):
             for e in steps_taken:
                 all_steps = all_steps + int(e.steps)
             context['steps_average'] = int(all_steps/steps_taken.count())
-        except:
-            context['steps_average'] = 0
+        except Exception as e:
+            context['steps_average'] = str(e)
 
         # WATER INTAKE SERVINGS
         try:
             water_intake = Water.objects.filter(user_id=user_informations.user_id).order_by('timestamp')[0]
             context['water_intake'] = water_intake.water
-        except:
-            context['water_intake'] = 0
+        except Exception as e:
+            context['water_intake'] = str(e)
 
         # FRUIT/VEGGIES INTAKE SERVINGS
         try:
             fv_intake = VegetablesAndFruits.objects.filter(user_id=user_informations.user_id).order_by('timestamp')[0]
             context['fv_intake'] = int(fv_intake.fruits)+int(fv_intake.vegetables)
-        except:
-            context['fv_intake'] = 0
+        except Exception as e:
+            context['fv_intake'] = e
         
 
         
@@ -276,8 +276,8 @@ class MyAdminSite(AdminSite):
             
             context['water_intake_avg_this_month'] = int(water_intake_avg_this_month)*10
             context['water_intake_avg_last_month'] = int(water_intake_avg_last_month)*10
-        except:
-            context['water_intake_avg_this_month'] = 0
+        except Exception as e:
+            context['water_intake_avg_this_month'] = str(e)
             context['water_intake_avg_last_month'] = 0
 
         # daily average veggie intake
@@ -298,9 +298,9 @@ class MyAdminSite(AdminSite):
             
             context['veggie_intake_avg_this_month'] = "{:.2f}".format(veggie_intake_avg_this_month)
             context['veggie_intake_avg_last_month'] = "{:.2f}".format(veggie_intake_avg_last_month)
-        except:
-            context['veggie_intake_avg_this_month'] = 0
-            context['veggie_intake_avg_last_month'] = 0
+        except Exception as e:
+            context['veggie_intake_avg_this_month'] = str(e)
+            context['veggie_intake_avg_last_month'] = str(e)
         
         # daily average fruit intake
         try:
@@ -320,9 +320,9 @@ class MyAdminSite(AdminSite):
             
             context['fruit_intake_avg_this_month'] = "{:.2f}".format(fruit_intake_avg_this_month)
             context['fruit_intake_avg_last_month'] = "{:.2f}".format(fruit_intake_avg_last_month)
-        except:
-            context['fruit_intake_avg_this_month'] = 0
-            context['fruit_intake_avg_last_month'] = 0
+        except Exception as e:
+            context['fruit_intake_avg_this_month'] = str(e)
+            context['fruit_intake_avg_last_month'] = str(e)
 
         # most recent blood pressure
         try:
