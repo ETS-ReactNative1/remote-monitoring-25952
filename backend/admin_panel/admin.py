@@ -270,8 +270,8 @@ class MyAdminSite(AdminSite):
         
         # daily average water intake
         try:
-            water_intake_avg_last_month_list = Water.objects.filter(user_id=user_informations.user_id, timestamp__month='12')
-            water_intake_avg_this_month_list = Water.objects.filter(user_id=user_informations.user_id, timestamp__month='1')
+            water_intake_avg_last_month_list = Water.objects.filter(user_id=user_informations.user_id, timestamp__month=12)
+            water_intake_avg_this_month_list = Water.objects.filter(user_id=user_informations.user_id, timestamp__month=1)
             water_intake_avg_this_month = 0
             water_intake_avg_last_month = 0
             for e in water_intake_avg_last_month_list:
@@ -290,8 +290,8 @@ class MyAdminSite(AdminSite):
 
         # daily average veggie intake
         try:
-            veggie_intake_avg_last_month_list = VegetablesAndFruits.objects.filter(user_id=user_informations.user_id, timestamp__month=last_month)
-            veggie_intake_avg_this_month_list = VegetablesAndFruits.objects.filter(user_id=user_informations.user_id, timestamp__month=this_month)
+            veggie_intake_avg_last_month_list = VegetablesAndFruits.objects.filter(user_id=user_informations.user_id, timestamp__month='12')
+            veggie_intake_avg_this_month_list = VegetablesAndFruits.objects.filter(user_id=user_informations.user_id, timestamp__month='1')
             
             veggie_intake_avg_this_month = 0
             veggie_intake_avg_last_month = 0
