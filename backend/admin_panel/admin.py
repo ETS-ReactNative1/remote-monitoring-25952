@@ -13,6 +13,7 @@ from firebase_admin import messaging
 from remote_monitoring_25952 import settings
 import os
 
+from django.utils import timezone as django_tz
 import datetime
 import pytz
 
@@ -149,7 +150,7 @@ class MyAdminSite(AdminSite):
            # Include common variables for rendering the admin template.
            self.each_context(request),
         )
-        this_month = datetime.datetime.now().month
+        this_month = django_tz.now().month
         last_month = this_month - 1
         today = datetime.datetime.today()
         month_ago = datetime.datetime.today() - datetime.timedelta(days=30)
@@ -262,8 +263,8 @@ class MyAdminSite(AdminSite):
         
         # daily average water intake
         try:
-            water_intake_avg_last_month_list = Water.objects.filter(user_id=user_informations.user_id, timestamp__month='1')
-            water_intake_avg_this_month_list = Water.objects.filter(user_id=user_informations.user_id, timestamp__month='1')
+            water_intake_avg_last_month_list = Water.objects.filter(user_id=user_informations.user_id, timestamp__month=last_month)
+            water_intake_avg_this_month_list = Water.objects.filter(user_id=user_informations.user_id, timestamp__month=this_month)
             water_intake_avg_this_month = 0
             water_intake_avg_last_month = 0
             for e in water_intake_avg_last_month_list:
