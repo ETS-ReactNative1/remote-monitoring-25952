@@ -152,6 +152,8 @@ class MyAdminSite(AdminSite):
         )
         this_month = django_tz.now().month
         last_month = this_month - 1
+        this_month = str(this_month)
+        last_month = str(last_month)
         today = datetime.datetime.today()
         month_ago = datetime.datetime.today() - datetime.timedelta(days=30)
         date_generate_report = datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(hours=5)
