@@ -201,7 +201,7 @@ class MyAdminSite(AdminSite):
         context['times_op'] = times_op
 
         # TIMES OPENED APP LAST MONTH
-        times_op_lm = OpenedApp.objects.filter(user_id=user_informations.user_id).filter(Q(timestamp__gt=month_ago)|Q(timestamp=None)).count()
+        times_op_lm = OpenedApp.objects.filter(user_id=user_informations.user_id, timestamp__month=last_month).count()
         context['times_op_lm'] = times_op_lm
 
         # TIMES STEPPED ON SCALE
