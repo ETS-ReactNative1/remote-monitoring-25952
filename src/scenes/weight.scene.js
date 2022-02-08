@@ -35,27 +35,48 @@ const defaultWeight =[
 
 const Weight = ({...props}) => {
     const [weightScale, setweightScale] = useState(defaultWeight);
+    const [labels, setlabels] = useState(["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"]);
     const wei = props.navigation.getParam('weight',0);
     useEffect(() => {
       handleData();
+      
     },[]);
 
     const handleData= async ()=> {
       var uArr = [];
+      var labels_ = [];
       if(wei){
         var wDays = [parseFloat(wei),parseFloat(wei),parseFloat(wei),parseFloat(wei),parseFloat(wei),parseFloat(wei),parseFloat(wei)];
         const _weight = await GETJSON('weight/');
+        // const _weight = {
+        //   data:[
+        //     {weight:100, timestamp:'2022-02-05'},
+        //     {weight:150, timestamp:'2022-02-06'},
+        //     {weight:160, timestamp:'2022-02-07'},
+        //     {weight:170, timestamp:'2022-02-08'},
+        //     {weight:200, timestamp:'2022-02-04'},
+        //     {weight:300, timestamp:'2022-02-02'},
+        //     {weight:60, timestamp:'2022-01-30'},
+        //     {weight:60, timestamp:'2022-01-31'},
+        //   ]
+        // }
         const asset = _weight.data.map((item,index) => {
           // console.log(moment(item.timestamp).day(),'asdads')
-          if(!uArr.includes(moment(item.timestamp).format('DD-MM-YYYY')) && uArr.length <= 6){
+          if((moment(item.timestamp).diff(moment().subtract(1,'w')) > 0) && uArr.length <= 6 && !uArr.includes(moment(item.timestamp).format('DD-MM-YYYY'))){
+            console.log('sda')
             uArr.push(moment(item.timestamp).format('DD-MM-YYYY'));
             wDays[moment(item.timestamp).day()] = parseInt(item.weight);
-            
+            labels_.push(moment(item.timestamp).format('dd'))
           }
+          // if(!uArr.includes(moment(item.timestamp).format('DD-MM-YYYY')) && uArr.length <= 6){
+           
+            
+          // }
           // if(index < 7){
           //   wDays[moment(item.timestamp).day()] = parseInt(item.weight);
           // }
         });
+        setlabels(labels_);
         setweightScale(wDays);
       }
      
@@ -106,7 +127,7 @@ const Weight = ({...props}) => {
             </View>
         <LineChart
     data={{
-      labels: ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"],
+      labels: labels,
       datasets: [
         {
           data: weightScale
