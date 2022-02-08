@@ -1,0 +1,197 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        
+        <title></title>
+        
+        <link rel="preconnect" href="http://fonts.googleapis.com">
+        <link rel="preconnect" href="http://fonts.gstatic.com" crossorigin>
+        <link href="http://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+        
+        <style>
+            * {
+                font-family: 'Poppins', sans-serif;
+            }
+            .row {
+                clear: both;
+                width: 100%;
+            }
+            .row:after {
+                content: "";
+                display: block;
+                clear: both;
+            }
+            .col {
+                float: left;
+            }
+            .overview {
+                width: 90%;
+                margin: 0px auto;
+                padding: 5px 0px;
+                background: #f5f5f4;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="header" style="border-bottom: 2px solid #4c4e53;">
+            <div class="row">
+                <div class="col" style="width: 30%; overflow: hidden;">
+                    <img src="{% static 'img/rm-logo.png' %}" style="width: 100%;" />
+                </div>
+                <div class="col" style="float: right; margin-right: 5%;">
+                    <p>
+                        Patient Name: {{user_informations.first_name}} {{user_informations.last_name}}<br />
+                        DOB: {{user_informations.dob}} <br />
+                        Provider: Dr. Gregory House, MD <br />
+                        Date of Report: {% now "jS F Y H:i" %}. <br />
+                    </p>
+                </div>
+            </div>
+        </div>
+        <h1 style="text-align: center; color: #4c4e53; font-weight: 400;">
+            INITIAL SURVEY <b style="color: #68c27f">RESULTS</b>
+        </h1>
+        <div class="overview">
+            <div class="row">
+                <div class="col" style="width: 33.33%; text-align: center;">
+                    <p>
+                        Starting BMI: <b>{{bmi}}</b>
+                    </p>
+                </div>
+                <div class="col" style="width: 33.33%; text-align: center;">
+                    <p>
+                        Diabetes Risk  Motivation: <b style="display: inline-block; width: 50px; height: 50px; text-align: center; line-height: 50px; border-radius: 99px; color:#fff; background:#68c27f">7</b>
+                    </p>
+                </div>
+                <div class="col" style="width: 33.33%; text-align: center;">
+                    <p>
+                        Motivation: <b>Extrinsic</b>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="main-data">
+            <div class="row">
+                <div class="col" style="width: 48%; width: calc(50% - 3px); border-right: 3px solid #f5f5f4;">
+                    <h2 style="text-align: center; font-weight: 400;">BIOMETRIC <b style="color: #68c27f">DATA</b></h2>
+                    <canvas id="bioChart"></canvas>
+                    
+                    <div class="items-list--container" style="width: 80%; margin: 0px auto;">
+                        <p style="font-size: 24px; color: #4c4e53;">
+                            <span style="background: #f5f5f4; padding: 5px; display: inline-block; width: 70%; text-align: right;">last weight, last month: </span>
+                            <span style="font-weight: bold;">{{lastest_weight}}</span>
+                        </p>
+                        <p style="font-size: 24px; color: #4c4e53;">
+                            <span style="background: #f5f5f4; padding: 5px; display: inline-block; width: 70%; text-align: right;">highest blood pressure: </span>
+                            <span style="font-weight: bold;">{{highest_bp}}</span>
+                        </p>
+                        <p style="font-size: 24px; color: #4c4e53;">
+                            <span style="background: #f5f5f4; padding: 5px; display: inline-block; width: 70%; text-align: right;">lowest blood pressure: </span>
+                            <span style="font-weight: bold;">{{lowest_bp}}</span>
+                        </p>
+                        <p style="font-size: 24px; color: #4c4e53;">
+                            <span style="background: #f5f5f4; padding: 5px; display: inline-block; width: 70%; text-align: right;">highest blood sugar: </span>
+                            <span style="font-weight: bold;">{{highest_bs}}</span>
+                        </p>
+                        <p style="font-size: 24px; color: #4c4e53;">
+                            <span style="background: #f5f5f4; padding: 5px; display: inline-block; width: 70%; text-align: right;">lowest blood sugar: </span>
+                            <span style="font-weight: bold;">{{lowest_bs}}</span>
+                        </p>
+                    </div>
+                    <div style="background: #f5f5f4; height: 3px; color: #4c4e53;"></div>
+                    <h2 style="text-align: center; font-weight: 400;">RECOMMENDED QUESTIONS <b style="color: #68c27f">TO ASK PATIENT</b></h2>
+                    <div class="items-list--container" style="width: 80%; margin: 0px auto;">
+                        <p><b>1.</b></p>
+                        <p><b>2.</b></p>
+                        <p><b>3.</b></p>
+                        <p><b>4.</b></p>
+                        <p><b>5.</b></p>
+                    </div>
+                </div>
+                <div class="col" style="width: 50%;">
+                    <h2 style="text-align: center; font-weight: 400;">ENGAGEMENT <b style="color: #68c27f">DATA</b></h2>
+                    <div class="items-list--container" style="width: 80%; margin: 0px auto;">
+                        <p style="font-size: 24px; color: #4c4e53;">
+                            <span style="background: #f5f5f4; padding: 5px; display: inline-block; width: 70%; text-align: right;">times opened app: </span>
+                            <span style="font-weight: bold;">{{times_op}}</span>
+                        </p>
+                        <p style="font-size: 24px; color: #4c4e53;">
+                            <span style="background: #f5f5f4; padding: 5px; display: inline-block; width: 70%; text-align: right;">times opened app last month: </span>
+                            <span style="font-weight: bold;">{{times_op_lm}}</span>
+                        </p>
+                        <p style="font-size: 24px; color: #4c4e53;">
+                            <span style="background: #f5f5f4; padding: 5px; display: inline-block; width: 70%; text-align: right;">times stepped on scale: </span>
+                            <span style="font-weight: bold;">{{times_stepped_scale}}</span>
+                        </p>
+                    </div>
+                    <div style="background: #f5f5f4; height: 3px;"></div>
+                    <canvas id="engChart"></canvas>
+                    <div class="items-list--container" style="width: 90%; margin: 0px auto;">
+                        <p style="font-size: 24px; color: #4c4e53; width: 90%; text-align: right;">
+                            <span style="background: #f5f5f4; padding: 5px; display: inline-block; width: 70%; text-align: right;">average daily step count: </span>
+                            <span style="font-weight: bold;">{{steps_average}}</span>
+                        </p>
+                    </div>
+                    <div style="background: #f5f5f4; height: 3px;"></div>
+                    <div class="items-list--container" style="width: 90%; margin: 0px auto;">
+                        <p style="font-size: 24px; color: #4c4e53; width: 90%; text-align: right;">
+                            <span style="background: #f5f5f4; padding: 5px; display: inline-block; width: 70%; text-align: right;">water intake servings:: </span>
+                            <span style="font-weight: bold;">{{water_intake}}/8</span>
+                        </p>
+                        <p style="font-size: 24px; color: #4c4e53; width: 90%; text-align: right;">
+                            <span style="background: #f5f5f4; padding: 5px; display: inline-block; width: 70%; text-align: right;">fruit/veggie intake servings: </span>
+                            <span style="font-weight: bold;">{{fv_intake}}/12</span>
+                        </p>
+                    </div>
+                    <div style="background: #f5f5f4; height: 3px;"></div>
+                    <h2 style="text-align: center; font-weight: 400;">NOTES <b style="color: #68c27f">PATIENT</b></h2>
+                </div>
+            </div>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script>
+            const labels = [{% for e in weight_labels %} '{{e}}', {% endfor %}];
+            const data_bio = {
+            labels: labels,
+            datasets: [{
+                label: 'Weight Trend',
+                backgroundColor: 'rgb(104, 194, 127)',
+                borderColor: 'rgb(104, 194, 127)',
+                data: [{% for e in weight_data %} '{{e}}', {% endfor %}],
+            }]
+            };
+            const labels_steps = [{% for e in steps_labels %} '{{e}}', {% endfor %}];
+            const data_steps = {
+            labels: labels_steps,
+            datasets: [{
+                label: 'step count',
+                backgroundColor: 'rgb(104, 194, 127)',
+                borderColor: 'rgb(104, 194, 127)',
+                data: [{% for e in steps_data %} '{{e}}', {% endfor %}],
+            }]
+            };
+            // CONFIG
+            const configBio = {
+                type: 'line',
+                data: data_bio,
+                options: {}
+            };
+            const configSteps = {
+                type: 'line',
+                data: data_steps,
+                options: {}
+            };
+            // BIO CHART
+            var bioChart = new Chart(
+                document.getElementById('bioChart'),
+                configBio
+            );
+            // ENG CHART
+            var engChart = new Chart(
+                document.getElementById('engChart'),
+                configSteps
+            );
+        </script>
+    </body>
+</html>

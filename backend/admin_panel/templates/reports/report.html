@@ -5,9 +5,9 @@
         
         <title></title>
         
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+        <link rel="preconnect" href="http://fonts.googleapis.com">
+        <link rel="preconnect" href="http://fonts.gstatic.com" crossorigin>
+        <link href="http://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
         
         <style>
             * {
@@ -35,28 +35,58 @@
     </head>
     <body>
         <div class="header" style="border-bottom: 2px solid #4c4e53;">
-            <div class="row">
-                <div class="col" style="width: 30%; overflow: hidden;">
-                    <img src="{% static 'img/rm-logo.png' %}" style="width: 100%;" />
+            <table width="100%">
+                <tr>
+                    <td style="width:66%">
+                        <img src="rm-logo.png" style="min-width: 250px;width: 45%;" />
+                    </td>
+                    <td>
+                        <span style="width:100px">Patient Name:</span>{{user_informations.first_name}} {{user_informations.last_name}}<br />
+                        <span style="width:100px">DOB:</span> {{user_informations.dob}} <br />
+                       <span style="width:100px">Provider:</span>  Dr. Gregory House, MD <br />
+                        <span style="width:100px">Date of Report:</span> {% now "jS F Y H:i" %}. <br />
+                    </td>
+                </tr>
+            </table>
+            <!-- <div class="row" style="display: inline-flex;
+            align-items: center;">
+                <div class="col" style="width: 55%; overflow: hidden;">
+                 
                 </div>
                 <div class="col" style="float: right; margin-right: 5%;">
                     <p>
-                        Patient Name: {{user_informations.first_name}} {{user_informations.last_name}}<br />
-                        DOB: {{user_informations.dob}} <br />
-                        Provider: Dr. Gregory House, MD <br />
-                        Date of Report: {% now "jS F Y H:i" %}. <br />
+                      
                     </p>
                 </div>
-            </div>
+            </div> -->
         </div>
         <h1 style="text-align: center; color: #4c4e53; font-weight: 400;">
-            INITIAL SURVEY <b style="color: #68c27f">RESULTS</b>
+            REMOTE MONITORING <b style="color: #68c27f">RESULTS</b>
         </h1>
+        <table class="overview" style="padding:10px 0px 0px 0px">
+            <tr>
+                <td>
+                    <p style="text-align: center;">
+                        Starting BMI: <b>{{bmi}}</b>
+                    </p>
+                </td>
+                <!-- <td>
+                    <p style="text-align: center;">
+                        Diabetes Risk  Motivation: <b style="display: inline-block; width: 50px; height: 50px; text-align: center; line-height: 50px; border-radius: 99px; color:#fff; background:#68c27f">7</b>
+                    </p>
+                </td> -->
+                <td>
+                    <p style="text-align: center;">
+                        Motivation: <b>Extrinsic</b>
+                    </p>
+                </td>
+            </tr>
+        </table>
         <div class="overview">
-            <div class="row">
+            <!-- <div class="row" style="display: inline-flex;align-items: center;">
                 <div class="col" style="width: 33.33%; text-align: center;">
                     <p>
-                        Starting BMI: <b>37.2</b>
+                        Starting BMI: <b>{{bmi}}</b>
                     </p>
                 </div>
                 <div class="col" style="width: 33.33%; text-align: center;">
@@ -69,112 +99,293 @@
                         Motivation: <b>Extrinsic</b>
                     </p>
                 </div>
-            </div>
+            </div> -->
         </div>
-        <div class="main-data">
-            <div class="row">
-                <div class="col" style="width: 48%; width: calc(50% - 3px); border-right: 3px solid #f5f5f4;">
-                    <h2 style="text-align: center; font-weight: 400;">BIOMETRIC <b style="color: #68c27f">DATA</b></h2>
-                    <canvas id="bioChart"></canvas>
-                    
-                    <div class="items-list--container" style="width: 80%; margin: 0px auto;">
-                        <p style="font-size: 24px; color: #4c4e53;">
-                            <span style="background: #f5f5f4; padding: 5px; display: inline-block; width: 70%; text-align: right;">last weight, last month: </span>
-                            <span style="font-weight: bold;">{{lastest_weight}}</span>
-                        </p>
-                        <p style="font-size: 24px; color: #4c4e53;">
-                            <span style="background: #f5f5f4; padding: 5px; display: inline-block; width: 70%; text-align: right;">highest blood pressure: </span>
-                            <span style="font-weight: bold;">{{highest_bp}}</span>
-                        </p>
-                        <p style="font-size: 24px; color: #4c4e53;">
-                            <span style="background: #f5f5f4; padding: 5px; display: inline-block; width: 70%; text-align: right;">lowest blood pressure: </span>
-                            <span style="font-weight: bold;">{{lowest_bp}}</span>
-                        </p>
-                        <p style="font-size: 24px; color: #4c4e53;">
-                            <span style="background: #f5f5f4; padding: 5px; display: inline-block; width: 70%; text-align: right;">highest blood sugar: </span>
-                            <span style="font-weight: bold;">{{highest_bs}}</span>
-                        </p>
-                        <p style="font-size: 24px; color: #4c4e53;">
-                            <span style="background: #f5f5f4; padding: 5px; display: inline-block; width: 70%; text-align: right;">lowest blood sugar: </span>
-                            <span style="font-weight: bold;">{{lowest_bs}}</span>
-                        </p>
-                    </div>
-                    <div style="background: #f5f5f4; height: 3px; color: #4c4e53;"></div>
-                    <h2 style="text-align: center; font-weight: 400;">RECOMMENDED QUESTIONS <b style="color: #68c27f">TO ASK PATIENT</b></h2>
-                    <div class="items-list--container" style="width: 80%; margin: 0px auto;">
-                        <p><b>1.</b></p>
-                        <p><b>2.</b></p>
-                        <p><b>3.</b></p>
-                        <p><b>4.</b></p>
-                        <p><b>5.</b></p>
-                    </div>
-                </div>
-                <div class="col" style="width: 50%;">
-                    <h2 style="text-align: center; font-weight: 400;">ENGAGEMENT <b style="color: #68c27f">DATA</b></h2>
-                    <div class="items-list--container" style="width: 80%; margin: 0px auto;">
-                        <p style="font-size: 24px; color: #4c4e53;">
-                            <span style="background: #f5f5f4; padding: 5px; display: inline-block; width: 70%; text-align: right;">times opened app: </span>
-                            <span style="font-weight: bold;">{{times_op}}</span>
-                        </p>
-                        <p style="font-size: 24px; color: #4c4e53;">
-                            <span style="background: #f5f5f4; padding: 5px; display: inline-block; width: 70%; text-align: right;">times opened app last month: </span>
-                            <span style="font-weight: bold;">{{times_op_lm}}</span>
-                        </p>
-                        <p style="font-size: 24px; color: #4c4e53;">
-                            <span style="background: #f5f5f4; padding: 5px; display: inline-block; width: 70%; text-align: right;">times stepped on scale: </span>
-                            <span style="font-weight: bold;">{{times_stepped_scale}}</span>
-                        </p>
-                    </div>
-                    <div style="background: #f5f5f4; height: 3px;"></div>
-                    <canvas id="engChart"></canvas>
-                    <div class="items-list--container" style="width: 90%; margin: 0px auto;">
-                        <p style="font-size: 24px; color: #4c4e53; width: 90%; text-align: right;">
-                            <span style="background: #f5f5f4; padding: 5px; display: inline-block; width: 70%; text-align: right;">average daily step count: </span>
-                            <span style="font-weight: bold;">{{steps_average}}</span>
-                        </p>
-                    </div>
-                    <div style="background: #f5f5f4; height: 3px;"></div>
-                    <div class="items-list--container" style="width: 90%; margin: 0px auto;">
-                        <p style="font-size: 24px; color: #4c4e53; width: 90%; text-align: right;">
-                            <span style="background: #f5f5f4; padding: 5px; display: inline-block; width: 70%; text-align: right;">water intake servings:: </span>
-                            <span style="font-weight: bold;">{{water_intake}}/8</span>
-                        </p>
-                        <p style="font-size: 24px; color: #4c4e53; width: 90%; text-align: right;">
-                            <span style="background: #f5f5f4; padding: 5px; display: inline-block; width: 70%; text-align: right;">fruit/veggie intake servings: </span>
-                            <span style="font-weight: bold;">{{fv_intake}}/12</span>
-                        </p>
-                    </div>
-                    <div style="background: #f5f5f4; height: 3px;"></div>
-                    <h2 style="text-align: center; font-weight: 400;">NOTES <b style="color: #68c27f">PATIENT</b></h2>
-                </div>
-            </div>
+        <div class="main-data" style="margin-top: 20px;padding:10px 0px 0px 0px">
+            <table style="width:100%">
+                <tr>
+                    <td style="width: 5%;"></td>
+                    <td style="width: 40%;vertical-align: top;">
+                        <table style="width: 100%;line-height: 40px;border-collapse: separate;
+                        border-spacing: 0 8px;line-height: 40px;">
+                            <tr>
+                                <td colspan="3">
+                                    <h2 style="text-align: center; font-weight: 400;">BIOMETRIC <b style="color: #68c27f">DATA</b></h2> 
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="3">
+                                    <canvas id="bioChart"></canvas>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="2%">&nbsp;</td>
+                                <td style="background: #f5f5f4; padding: 5px; width:60%;text-align: right;">
+                                   most recent blood pressure:
+                                </td>
+                                <td style="font-weight: bold;padding-left: 10px;">
+                                    <!-- {{lastest_weight}}   -->
+                                    125/82
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="2%">&nbsp;</td>
+                                <td style="background: #f5f5f4; padding: 5px; width:60%;text-align: right;">
+                                    <!-- highest blood pressure: -->
+                                    most recent blood sugar
+                                </td>
+                                <td style="font-weight: bold;padding-left: 10px;">
+                                    <!-- {{highest_bp}}   -->
+                                    110
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="2%">&nbsp;</td>
+                                <td style="background: #f5f5f4; padding: 5px; width:60%;text-align: right;">
+                                    <!-- lowest blood pressure: -->
+                                    average 30 day blood sugar
+                                </td>
+                                <td style="font-weight: bold;padding-left: 10px;">
+                                    <!-- {{lowest_bp}}   -->
+                                    125
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="2%">&nbsp;</td>
+                                <td style="background: #f5f5f4; padding: 5px; width:60%;text-align: right;">
+                                    <!-- highest blood sugar: -->
+                                    # blood sugar readings taken in 30 days: 
+                                </td>
+                                <td style="font-weight: bold;padding-left: 10px;">
+                                    <!-- {{highest_bs}}   -->
+                                    10
+                                </td>
+                            </tr>
+                            <!-- <tr>
+                                <td width="2%">&nbsp;</td>
+                                <td style="background: #f5f5f4; padding: 5px; width:60%;text-align: right;">
+                                    lowest blood sugar:
+                                </td>
+                                <td style="font-weight: bold;">
+                                    {{lowest_bs}}  
+                                </td>
+                            </tr> -->
+                            <tr>
+                                <td colspan="3" style="background: #f5f5f4; height: 3px; color: #4c4e53;"></td>
+                            </tr>
+                            <tr>
+                                <td colspan="3">
+                                    <h2 style="text-align: center; font-weight: 400;"><b style="color: #68c27f">PREVENTION PLANS STARTED THIS MONTH</b></h2>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="2%">&nbsp;</td>
+                            </tr>
+                            <tr>
+                                <td width="2%">&nbsp;</td>
+                            </tr>
+                            <!-- <tr>
+                                <td width="2%">&nbsp;</td>
+                                <td colspan="2">3.</td>
+                            </tr>
+                            <tr>
+                                <td width="2%">&nbsp;</td>
+                                <td colspan="2">4.</td>
+                            </tr>
+                            <tr>
+                                <td width="2%">&nbsp;</td>
+                                <td colspan="2">5.</td>
+                            </tr> -->
+                        </table>
+                        <!-- <h2 style="text-align: center; font-weight: 400;">BIOMETRIC <b style="color: #68c27f">DATA</b></h2>
+                        <canvas id="bioChart"></canvas>
+                        
+                        <div class="items-list--container" style="width: 80%; margin: 0px auto;">
+                            <p style="font-size: 14px; color: #4c4e53;">
+                                <span style="background: #f5f5f4; padding: 5px; display: inline-block; width: 55%; text-align: right;">last weight, last month: </span>
+                                <span style="font-weight: bold;">{{lastest_weight}}</span>
+                            </p>
+                            <p style="font-size: 14px; color: #4c4e53;">
+                                <span style="background: #f5f5f4; padding: 5px; display: inline-block; width: 55%; text-align: right;">highest blood pressure: </span>
+                                <span style="font-weight: bold;">{{highest_bp}}</span>
+                            </p>
+                            <p style="font-size: 14px; color: #4c4e53;">
+                                <span style="background: #f5f5f4; padding: 5px; display: inline-block; width: 55%; text-align: right;">lowest blood pressure: </span>
+                                <span style="font-weight: bold;">{{lowest_bp}}</span>
+                            </p>
+                            <p style="font-size: 14px; color: #4c4e53;">
+                                <span style="background: #f5f5f4; padding: 5px; display: inline-block; width: 55%; text-align: right;">highest blood sugar: </span>
+                                <span style="font-weight: bold;">{{highest_bs}}</span>
+                            </p>
+                            <p style="font-size: 14px; color: #4c4e53;">
+                                <span style="background: #f5f5f4; padding: 5px; display: inline-block; width: 55%; text-align: right;">lowest blood sugar: </span>
+                                <span style="font-weight: bold;">{{lowest_bs}}</span>
+                            </p>
+                        </div>
+                        <div style="background: #f5f5f4; height: 3px; color: #4c4e53;"></div>
+                        <h2 style="text-align: center; font-weight: 400;">RECOMMENDED QUESTIONS <b style="color: #68c27f">TO ASK PATIENT</b></h2>
+                        <div class="items-list--container" style="width: 80%; margin: 0px auto;">
+                            <p><b>1.</b></p>
+                            <p><b>2.</b></p>
+                            <p><b>3.</b></p>
+                            <p><b>4.</b></p>
+                            <p><b>5.</b></p>
+                        </div> -->
+                    </td>
+                    <td style="width: 40%;vertical-align: top;">
+                        <table style="width: 100%;line-height: 40px;border-collapse: separate;
+                        border-spacing: 0 8px;line-height: 40px;border-left: 4px solid #f5f5f4;">
+                            <tr>
+                                <td colspan="3">
+                                    <h2 style="text-align: center; font-weight: 400;">ENGAGEMENT <b style="color: #68c27f">DATA</b></h2>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="2%">&nbsp;</td>
+                                <td style="background: #f5f5f4; padding: 5px; width:60%;text-align: right;">
+                                    times opened app:
+                                </td>
+                                <td style="font-weight: bold;padding-left: 10px;">
+                                    {{times_op}}  
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="2%">&nbsp;</td>
+                                <td style="background: #f5f5f4; padding: 5px; width:60%;text-align: right;">
+                                    times opened app last month:
+                                </td>
+                                <td style="font-weight: bold;padding-left: 10px;">
+                                    {{times_op_lm}}  
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="2%">&nbsp;</td>
+                                <td style="background: #f5f5f4; padding: 5px; width:60%;text-align: right;">
+                                    times stepped on scale:
+                                </td>
+                                <td style="font-weight: bold;padding-left: 10px;">
+                                    {{times_stepped_scale}}  
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="3" style="background: #f5f5f4; height: 3px; color: #4c4e53;"></td>
+                            </tr>
+                            <tr>
+                                <td colspan="3">
+                                    <canvas id="engChart"></canvas>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="2%">&nbsp;</td>
+                                <td style="background: #f5f5f4; padding: 5px; width:60%;text-align: left;">
+                                    average daily step count:
+                                </td>
+                                <td style="font-weight: bold;padding-left: 10px;">
+                                    {{steps_average}}  
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="3" style="background: #f5f5f4; height: 3px; color: #4c4e53;"></td>
+                            </tr>
+                            <tr>
+                                <td width="2%">&nbsp;</td>
+                                <td style="background: #fff; padding: 5px; width:60%;text-align: left;">
+                                   &nbsp;
+                                </td>
+                                <td style="padding-left: 10px;display: inline-flex;height: 45px;
+                                align-items: center;line-height: 20px;">
+                                  <p style="width: 60px;text-align: center;">LAST MONTH</p>
+                                  <p style="margin-left: 20px;width: 60px;text-align: center;">THIS MONTH</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="2%">&nbsp;</td>
+                                <td style="background: #f5f5f4; padding: 5px; width:60%;text-align: left;">
+                                    daily average water intake:
+                                </td>
+                                <td style="font-weight: bold;padding-left: 10px;display: inline-flex;height: 45px;
+                                align-items: center;">
+                                   <p style="font-weight: bold;text-align: center;width: 60px;">2/1</p>
+                                   <p style="font-weight: bold;margin-left: 20px;text-align: center;width: 60px;">3/4</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="2%">&nbsp;</td>
+                                <td style="background: #f5f5f4; padding: 5px; width:60%;text-align: left;">
+                                   daily average veggie intake:
+                                </td>
+                                <td style="font-weight: bold;padding-left: 10px;display: inline-flex;height: 45px;
+                                align-items: center;">
+                                    <p style="font-weight: bold;text-align: center;width: 60px;">2/1</p>
+                                    <p style="font-weight: bold;margin-left: 20px;text-align: center;width: 60px;">3/4</p>
+                             
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="2%">&nbsp;</td>
+                                <td style="background: #f5f5f4; padding: 5px; width:60%;text-align: left;">
+                                    <!-- fruit/veggie intake servings: -->
+                                    daily average fruit intake:
+                                </td>
+                                <td style="font-weight: bold;padding-left: 10px;display: inline-flex;height: 45px;
+                                align-items: center;">
+                                    <p style="font-weight: bold;text-align: center;width:60px">2/1</p>
+                                    <p style="font-weight: bold;margin-left: 20px;text-align: center;width:60px">3/4</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="3" style="background: #f5f5f4; height: 3px; color: #4c4e53;"></td>
+                            </tr>
+                           
+                        </table>
+
+                    </td>
+                    <td style="width: 5%;"></td>
+                </tr>
+            </table>
+            <!-- <table width="50%">
+                <tr>
+                    <td width="10%"></td>
+                    <td>
+                        <h2 style="text-align: center; font-weight: 400;">BIOMETRIC <b style="color: #68c27f">DATA</b></h2>  
+                    </td>
+                </tr>
+                <tr>
+                    <td width="10%"></td>
+                    <td>
+                        <canvas id="bioChart"></canvas>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="10%"></td>
+                    <td>
+                        <span style="background: #f5f5f4; padding: 5px; display: inline-block; width: 55%; text-align: right;">last weight, last month: </span>
+                        <span style="font-weight: bold;">{{lastest_weight}}</span>
+                    </td>
+                </tr>
+            </table> -->
+     
         </div>
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         <script>
-            const labels = [
-            'January',
-            'February',
-            'March',
-            'April',
-            'May',
-            'June',
-            ];
+            const labels = [{% for e in weight_labels %} '{{e}}', {% endfor %}];
             const data_bio = {
             labels: labels,
             datasets: [{
                 label: 'Weight Trend',
                 backgroundColor: 'rgb(104, 194, 127)',
                 borderColor: 'rgb(104, 194, 127)',
-                data: [0, 10, 5, 2, 20, 30, 45],
+                data: [{% for e in weight_data %} '{{e}}', {% endfor %}],
             }]
             };
+            const labels_steps = [{% for e in steps_labels %} '{{e}}', {% endfor %}];
             const data_steps = {
-            labels: labels,
+            labels: labels_steps,
             datasets: [{
                 label: 'step count',
                 backgroundColor: 'rgb(104, 194, 127)',
                 borderColor: 'rgb(104, 194, 127)',
-                data: [0, 10, 5, 2, 20, 30, 45],
+                data: [{% for e in steps_data %} '{{e}}', {% endfor %}],
             }]
             };
             // CONFIG
@@ -199,6 +410,5 @@
                 configSteps
             );
         </script>
-
     </body>
 </html>

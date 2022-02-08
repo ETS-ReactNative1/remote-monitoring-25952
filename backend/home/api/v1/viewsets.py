@@ -2,7 +2,7 @@ from rest_framework import viewsets, generics, permissions
 from django.contrib.auth import authenticate
 from rest_framework.authentication import SessionAuthentication, TokenAuthentication
 from rest_framework.authtoken.serializers import AuthTokenSerializer
-from rest_framework.permissions import IsAdminUser
+from rest_framework.permissions import IsAdminUser, AllowAny
 from rest_framework.viewsets import ModelViewSet, ViewSet
 from rest_framework.authtoken.models import Token
 from rest_framework.decorators import action
@@ -21,7 +21,8 @@ from home.api.v1.serializers import (
     WaterSerializer,
     StepsSerializer,
     HeightSerializer,
-    UserInformationSerializer
+    UserInformationSerializer,
+    OpenedAppSerializer
 )
 from home.models import CustomText, HomePage, Weight, BloodPressure, BloodSugar, VegetablesAndFruits, Water, Steps, Height, OpenedApp, UserInformation
 
@@ -245,11 +246,23 @@ class UserStatusViewSet(ViewSet):
         user = UserInformation.objects.get(user_id=user_id)
         user.last_login_timestamp = datetime.now()
         user.save()
-        entry_open = OpenedApp(user_id=user_id)
+        entry_open = OpenedApp(user_id=int(user_id))
         entry_open.save()
 
         return Response({'status': user_id})
 
+class UserStatusDebugViewSet(ViewSet):
+    queryset = Height.objects.all()
+    serializer_class = HeightSerializer
+    permission_classes = [AllowAny]
+    def list(self, request):
+        #user_id, user_data = get_user_id(request)
+
+        open_apps = OpenedApp.objects.filter(user_id=request.data['user_id'])
+        users = UserInformation.objects.all()
+        serializer_users = UserInformationSerializer(users, many=True)
+        serializer_opens = OpenedAppSerializer(open_apps, many=True)
+        return Response({'data_users': serializer_users.data, 'data_opens': serializer_opens.data})
 
 class UserInformationViewSet(ViewSet):
     queryset = UserInformation.objects.all()

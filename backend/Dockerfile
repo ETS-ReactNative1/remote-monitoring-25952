@@ -1,4 +1,4 @@
-FROM ubuntu:bionic
+FROM python:3.8-slim as base
 
 ENV LANG C.UTF-8
 ARG DEBIAN_FRONTEND=noninteractive
@@ -7,20 +7,14 @@ ARG SECRET_KEY
 
 # libpq-dev and python3-dev help with psycopg2
 RUN apt-get update \
-  && apt-get install -y python3.7-dev python3-pip libpq-dev curl wget wkhtmltopdf \
-  && apt-get clean all \
+  && apt-get install -y --no-install-recommends python3-dev libpq-dev gcc curl wget wkhtmltopdf \
+  && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
   && rm -rf /var/lib/apt/lists/*
   # You can add additional steps to the build by appending commands down here using the
   # format `&& <command>`. Remember to add a `\` at the end of LOC 12.
   # WARNING: Changes to this file may cause unexpected behaviors when building the app.
   # Change it at your own risk.
 
-
-# installing wkhtmltopdf with patch qt
-RUN wget https://github.com/wkhtmltopdf/wkhtmltopdf/releases/download/0.12.4/wkhtmltox-0.12.4_linux-generic-amd64.tar.xz
-RUN tar xvf wkhtmltox-0.12.4_linux-generic-amd64.tar.xz
-RUN mv wkhtmltox/bin/wkhtmlto* /usr/bin/
-RUN ln -nfs /usr/bin/wkhtmltopdf /usr/local/bin/wkhtmltopdf
 
 WORKDIR /opt/webapp
 COPY . .

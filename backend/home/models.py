@@ -9,12 +9,6 @@ from common.ishare import *
 
 class Hospital(models.Model):
     name = models.CharField(max_length=200)
-    slug = models.SlugField(max_length=200, blank=True, null=True)
-
-    def save(self, *args, **kwargs):
-        if not self.slug:
-            self.slug = slugify(self.name)
-        super(Hospital, self).save(*args, **kwargs)
 
     def __str__(self) -> str:
         return self.name
@@ -24,7 +18,7 @@ class Doctor(models.Model):
     hospital = models.ForeignKey(Hospital, on_delete=models.CASCADE, related_name='doctors', null=True)
     first_name = models.CharField(max_length=200)
     last_name = models.CharField(max_length=200)
-    email = models.EmailField(blank=True)
+    email = models.EmailField(verbose_name="Direct message address", blank=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
