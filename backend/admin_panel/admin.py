@@ -389,9 +389,10 @@ class MyAdminSite(AdminSite):
                 cred = credentials.Certificate(os.path.join(settings.BASE_DIR, 'firebase_admin.json'))
                 firebase_admin.initialize_app(cred)
 
-            fcm = UserInformation.objects.get(pk=request.POST['user_id']).fcm
 
             try:
+                fcm = UserInformation.objects.get(pk=request.POST['user_id']).fcm
+
                 message = messaging.Message(
                     notification=messaging.Notification(
                         title=request.POST['title'],
@@ -403,7 +404,21 @@ class MyAdminSite(AdminSite):
                 response = messaging.send(message)
                 print(response)
             except:
-                context["user_not_registered"] = 1
+                try:
+                    for user_id in request.POST.getlist('user_id'):
+                        fcm = UserInformation.objects.get(pk=user_id).fcm
+
+                        message = messaging.Message(
+                            notification=messaging.Notification(
+                            title=request.POST['title'],
+                            body=request.POST['message'],
+                            ),
+                            token=fcm,
+                        )
+
+                        response = messaging.send(message)
+                except:
+                    context["user_not_registered"] = 1
 
         
 
