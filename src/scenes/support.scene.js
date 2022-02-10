@@ -76,7 +76,7 @@ const Support = ({...props}) => {
             <TouchableOpacity
             onPress={() => handleArticle()}
             style={_._dlist}>
-                <Text style={[_.textWhite,_.fs20]}>Open Article</Text>
+                <Text style={[_.textWhite,_.fs20]}>Healthy Living Resources</Text>
             </TouchableOpacity>
             <TouchableOpacity
             onPress={() => handleContact()}

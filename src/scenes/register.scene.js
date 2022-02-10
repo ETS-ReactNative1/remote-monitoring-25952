@@ -73,7 +73,8 @@ const Register = ({...props}) => {
         const data = navigation.getParam('data');
         // setLoading(true);
         const user = data.user;
-        console.log(data)
+        
+     
         axios.put(`${url2}signup/${user.id}/address_details/`, {
             first_name:user.first_name,
             last_name:user.last_name,
@@ -112,10 +113,10 @@ const Register = ({...props}) => {
 
     const handleUserInfo = async (token) => new Promise(async(resolve,reject) => {
         const dataset = {
-            operating_system:getSystemName(),
-            browser_version:getSystemVersion(),
-            device:getModel(),
-            fcm:fcmToken
+            operating_system:getSystemName() ? getSystemName() : 'none',
+            browser_version:getSystemVersion() ?  getSystemVersion() : 'none',
+            device:getModel() ? getModel() : 'none',
+            fcm:fcmToken ? fcmToken : 'none'
         }
         console.log(dataset)
         try{

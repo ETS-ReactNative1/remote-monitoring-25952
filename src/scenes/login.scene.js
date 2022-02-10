@@ -62,7 +62,8 @@ const Login = ({...props}) => {
             email:email,
             device_id:getUniqueId(),
             DOB:moment(dob.value).format('YYYY-MM-DD'),
-            password
+            password,
+            'from_rm' : true
         }, {
             headers: {
                 'accept': 'application/json',
@@ -71,7 +72,7 @@ const Login = ({...props}) => {
         })
             .then(response => {
                 const data = response.data;
-             
+                console.log(data)
                 setLoading(false);
                 navigation.navigate('Register',{
                     data

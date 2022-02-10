@@ -8,7 +8,8 @@ import com.polidea.reactnativeble.BlePackage;
 // import com.geniem.rnble.RNBLEPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.facebook.react.ReactInstanceManager;
-
+import com.facebook.react.bridge.JSIModulePackage; // <- add this
+import com.swmansion.reanimated.ReanimatedJSIModulePackage; // <- add this
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.soloader.SoLoader;
@@ -37,6 +38,10 @@ public class MainApplication extends Application implements ReactApplication {
         protected String getJSMainModuleName() {
           return "index";
         }
+            @Override 
+      protected JSIModulePackage getJSIModulePackage() {
+        return new ReanimatedJSIModulePackage(); // <- add
+      }
       };
 
   @Override

@@ -78,7 +78,7 @@ import com.android.build.OutputFile
  */
 
 project.ext.react = [
-    enableHermes: false,  // clean and rebuild if changing
+    enableHermes: true,  // clean and rebuild if changing
 ]
 
 apply from: "../../node_modules/react-native/react.gradle"
@@ -138,8 +138,8 @@ android {
         // versionName "1.0"
            minSdkVersion 24
         targetSdkVersion 30
-        versionCode 17
-        versionName "2.6"
+        versionCode 19
+        versionName "2.8"
         multiDexEnabled true
         buildToolsVersion "30.0.2"
     }
@@ -201,6 +201,7 @@ android {
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
+    //   implementation fileTree(dir: "libs", include: ["*.aar"])
     //noinspection GradleDynamicVersion
     implementation "com.facebook.react:react-native:+"  // From node_modules
 
@@ -210,7 +211,7 @@ dependencies {
       exclude group:'com.facebook.fbjni'
     }
     implementation 'androidx.multidex:multidex:2.0.1'
-
+ implementation "com.google.android.gms:play-services-base:16.1.0" 
     implementation 'com.google.android.gms:play-services-fitness:16.0.1'
     implementation 'com.google.android.gms:play-services-auth:16.0.1'
      implementation "com.polidea.rxandroidble:rxandroidble:1.5.0"

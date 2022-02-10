@@ -290,6 +290,16 @@ const WeightScale = ({...props}) => {
 
     const requestLocationPermission = async () =>  {
       if(Platform.OS === 'android'){
+        RNAndroidLocationEnabler.promptForEnableLocationIfNeeded({
+          interval: 10000,
+          fastInterval: 5000,
+        })
+          .then((data) => {
+            console.log(data);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
         try {
           const granted = await PermissionsAndroid.request(
             PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION, {
@@ -312,6 +322,7 @@ const WeightScale = ({...props}) => {
           console.warn(err);
           return false;
         }
+        
       }
     
     }
@@ -329,10 +340,13 @@ const WeightScale = ({...props}) => {
         }else{
           setbleState(true);
         }
-       if(scannedDevice.name == "51-102"){
+      //  if(scannedDevice.name == "51-102"){
+        if(scannedDevice.name == "51-102"){
           // await handleConnect__(scannedDevice);
-         await props.AddDevice(scannedDevice);
+          await props.AddDevice(scannedDevice);
        }
+      
+      
         // if (scannedDevice) {
         //    if (scannedDevice && !scannedDevices.find((dev) => dev.id === scannedDevice.id)) {
         //     // handleConnect__(scannedDevice);
@@ -350,16 +364,7 @@ const WeightScale = ({...props}) => {
 
     useEffect(() => {
       requestLocationPermission();
-      RNAndroidLocationEnabler.promptForEnableLocationIfNeeded({
-        interval: 10000,
-        fastInterval: 5000,
-      })
-        .then((data) => {
-          console.log(data);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+     
     },[]);
 
     const handleRefresh = async() => {

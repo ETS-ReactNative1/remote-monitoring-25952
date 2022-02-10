@@ -77,7 +77,7 @@ const Steps = ({...props}) => {
         const step2 = await fetchData();
       }
     
-      const saveStep = await handleSaveSteps();
+      // const saveStep = await handleSaveSteps();
       /* process background tasks */
       
       BackgroundFetch.finish(taskId);
@@ -100,11 +100,18 @@ const Steps = ({...props}) => {
       AppleHealthKit.getStepCount(null, (err, results) => {
         console.log(results,"REESD")
           setSteps(results != undefined ? results.value : 0);
+          handleSaveBackgroundSteps(results != undefined ? results.value : 0);
         console.log(results)
       });
    
   });
   }
+
+  // useEffect(() => {
+  //   if(steps != 0){
+  //     handleSaveSteps()
+  //   }
+  // },[]);
 
   useEffect(async() => {
     handleBackgroundTask();
@@ -113,31 +120,34 @@ const Steps = ({...props}) => {
       handlePopulateWeekData();
       handleAppleStep();
     }else{
-      request(PERMISSIONS.ANDROID.ACTIVITY_RECOGNITION).then((result) => {
-        console.log(result)
-      });
+      if(Platform.OS === 'android'){
+        request(PERMISSIONS.ANDROID.ACTIVITY_RECOGNITION).then((result) => {
+          console.log(result)
+        });
+       
+        const options = {
+          scopes: [
+            Scopes.FITNESS_ACTIVITY_READ,
+            Scopes.FITNESS_ACTIVITY_WRITE,
+            Scopes.FITNESS_BODY_READ,
+            Scopes.FITNESS_BODY_WRITE,
+          ],
+        }
+      const authorize = await GoogleFit.checkIsAuthorized();
+      if(!authorize){
+        const authorization = await GoogleFit.authorize(options);
+        if (authorization.success) {
+          console.log("AUTH_SUCCESS");
+          handleSuccess();
+          fetchData();
+        } else {
+          console.log("AUTH_DENIED", authorization.message);
+        }
+      }else{
+       handleSuccess();
+      }
+      }
      
-      const options = {
-        scopes: [
-          Scopes.FITNESS_ACTIVITY_READ,
-          Scopes.FITNESS_ACTIVITY_WRITE,
-          Scopes.FITNESS_BODY_READ,
-          Scopes.FITNESS_BODY_WRITE,
-        ],
-      }
-    const authorize = await GoogleFit.checkIsAuthorized();
-    if(!authorize){
-      const authorization = await GoogleFit.authorize(options);
-      if (authorization.success) {
-        console.log("AUTH_SUCCESS");
-        handleSuccess();
-        fetchData();
-      } else {
-        console.log("AUTH_DENIED", authorization.message);
-      }
-    }else{
-     handleSuccess();
-    }
  
     }
     
@@ -161,7 +171,8 @@ const Steps = ({...props}) => {
         wDays[moment(item.date).day()] = parseInt(item.value);
     });
     setwRecord(wDays);
-    setSteps(res[2].steps[res[2].steps.length - 1].value)
+    setSteps(res[2].steps[res[2].steps.length - 1].value);
+    handleSaveBackgroundSteps(res[2]?.steps[res[2]?.steps?.length - 1].value);
   }
 
   const handlePopulateWeekData = async() => {
@@ -187,7 +198,18 @@ const Steps = ({...props}) => {
       const _steps = await POSTJSON({
         steps:steps
       },'steps/');
-      console.log(_steps)
+      console.log(_steps,"STEPSSS")
+    }catch(error){
+        console.log(error,"ERRRPR");
+    }
+  }
+
+  const handleSaveBackgroundSteps = async(steps_) => {
+    try{
+      const _steps = await POSTJSON({
+        steps:steps_
+      },'steps/');
+      console.log(_steps,"STEPSSS")
     }catch(error){
         console.log(error,"ERRRPR");
     }

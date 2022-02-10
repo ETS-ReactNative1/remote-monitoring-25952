@@ -13,7 +13,7 @@ import { NavigationEvents,SafeAreaView } from "react-navigation";
 import { Platform } from 'react-native';
 import { StatusBar } from 'react-native';
 import messaging, { firebase } from '@react-native-firebase/messaging'
-import {decode as atob, encode as btoa} from 'base-64'
+import { getDevice, getModel, getSystemName ,getSystemVersion } from 'react-native-device-info';
 import { Alert } from 'react-native';
 import { RefreshControl } from 'react-native';
 
@@ -47,9 +47,12 @@ const Dashboard = ({...props}) => {
             firebase.initializeApp(firebaseConfig);
         }
     //    AsyncStorage.setItem('loggedIn','false');
-        handleData();
+        
         handleMaintainUser();
         createNotificationListeners();
+        handleFindUserId();
+        handleData();
+        
         // // const readebleData = base64.decode("A8RA4AcBARYTHw==");
         // // console.log(readebleData)
         // console.log(base64ToHex("A9xG4AcBAhYiEg=="))
@@ -57,11 +60,28 @@ const Dashboard = ({...props}) => {
         // handleLogout();
     },[]);
 
+    const handleFindUserId = async() => {
+        let fcmToken_ = await messaging().getToken();
+        const dataset = {
+            operating_system:getSystemName() ? getSystemName() : 'none',
+            browser_version:getSystemVersion() ? getSystemVersion() : 'none',
+            device:getModel() ? getModel() : 'none',
+            fcm:fcmToken_ ? fcmToken_ : 'none'
+        }
+        try{
+            const res = await POSTJSON(dataset,'user-information/');
+           console.log(res,"RESSS");
+        }catch(error){
+           
+            console.log(error)
+        }
+    }
+
     const handleMaintainUser = () => {
         POSTJSON({},'user-status/').then(response => {
-            console.log(response)
+            console.log(response,"RESewwqeewqqwew")
         }).catch(error => {
-            console.log(error)
+            console.log(error,'saddsad3e2')
         })
     }
 
