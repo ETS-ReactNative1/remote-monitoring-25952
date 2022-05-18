@@ -44,8 +44,9 @@ class MyAdminSite(AdminSite):
            # Include common variables for rendering the admin template.
            self.each_context(request),
         )
-        today = datetime.datetime.today() - datetime.timedelta(days=3)
-        users = UserInformation.objects.filter(Q(last_login_timestamp__lt=today)|Q(last_login_timestamp=None))
+        today = datetime.datetime.today() - datetime.timedelta(days=180)
+        #users = UserInformation.objects.filter(Q(last_login_timestamp__lt=today)|Q(last_login_timestamp=None))
+        users = UserInformation.objects.filter(Q(date_joined__lt=today)|Q(last_login_timestamp=None))
         
         for e in users:
             print(e)
